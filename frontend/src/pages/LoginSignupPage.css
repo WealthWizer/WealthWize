@@ -1,4 +1,4 @@
-.login-page-container {
+.login-signup-page-container {
   display: flex;
   min-height: 100vh;
   font-family: inter;
@@ -31,8 +31,7 @@
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-
-  width: 30rem;
+  width: 35rem;
 }
 
 .form-title {
@@ -47,12 +46,12 @@
 }
 
 .login-inputs input {
-  padding: 1.6rem;
+  padding: 1.8rem 1.2rem;
   background-color: #f2f1f0;
   border: none;
 }
 
-.login-btn {
+.login-signup-btn {
   background-color: #151515;
   color: #fff;
   padding: 1.2rem;
@@ -62,4 +61,13 @@
 
 .bold {
   font-weight: 700;
+}
+
+.first-last {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.first-last input {
+  flex: 1;
 }
