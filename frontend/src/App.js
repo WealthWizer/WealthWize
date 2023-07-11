@@ -4,14 +4,14 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import Signup from "./pages/Signup";
 import { AuthContext } from "./authContext";
-
 import "./index.css";
 import { use } from "bcrypt/promises";
+
 function App() {
-  
-   const [token, setToken] = useState(false);
+
+  const [token, setToken] = useState(false);
   const [username, setUsername] = useState('user 1');
-  
+
   const login = (token) => {
     setToken(token);
     localStorage.setItem(
@@ -21,8 +21,8 @@ function App() {
       })
     );
   };
-  
-   const logout = () => {};
+
+  const logout = () => { };
 
   return (
     <>
@@ -36,9 +36,9 @@ function App() {
         </BrowserRouter>
       </AuthContext.Provider>
     </>
- 
 
- 
+
+
   );
 }
 
