@@ -7,13 +7,13 @@ import Transactions from './Transactions.js';
 import Overview from './Overview.js';
 import './dashboard.css';
 
-const Dashboard = ()=>{
+const Dashboard = ({username, setIsLoggedIn})=>{
 
 
     return(
 
         <div className='dashboard'>
-        <Navbar className='Navbar'/>
+        <Navbar className='Navbar' username={username} setIsLoggedIn={setIsLoggedIn}/>
         <Overview className='Overview'/>
         <Transactions className='Transactions'/>
         <Budget className='Budget'/>
