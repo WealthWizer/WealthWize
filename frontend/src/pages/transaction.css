@@ -47,8 +47,8 @@ option:hover {
 
 .date-range {
     display: flex;
-    /* justify-content: start; */
-    /* align-items: flex-start; */
+    /* justify-content: start;
+    align-items: flex-start; */
     align-self: stretch;
     background-color: #FFF;
     font-style: normal;
@@ -58,24 +58,31 @@ option:hover {
     letter-spacing: -0.48px;
 }
 
-input[type="week"] {
-    /* display: none; */
+.date-input {
+    display: flex;
+    align-self: stretch;
+    /* height: ; */
+}
+
+input[type="date"] {
+    opacity: 0;
     margin: 16px 0;
     background-color: #FFF;
-    width: 30px;
+    width: 60px;
+    cursor: pointer;
 }
 
 #week-start {
-    position: sticky;
-    /* top: 10px; */
-    /* left: 80px; */
+    position: relative;
+    bottom: 20px;
+    right: 125px;
 }
 
 
 #week-end {
-    position: sticky;
-    /* bottom: 20px;
-    left: 10px; */
+    position: relative;
+    bottom: 20px;
+    right: 120px;
 }
 
 .single-transaction {

@@ -20,10 +20,12 @@ const Transactions = () => {
         { item: 'McDonalds', amount: '$' + 15, category: 'Dining', id: 12 },
     ]);
 
+    const d = new Date();
+    d.setMonth(d.getMonth() - 1)
 
-    const [weekStart, setWeekStart] = useState();
-    const [weekEnd, setWeekEnd] = useState();
-    const [filter, setFilter] = useState();
+    const [weekStart, setWeekStart] = useState(d.toLocaleDateString());
+    const [weekEnd, setWeekEnd] = useState(new Date().toLocaleDateString().slice(0, 10));
+    const [filter, setFilter] = useState('Transaction');
 
     useEffect(() => {
         fetch('http://localhost:3000/transaction', {
@@ -58,10 +60,10 @@ const Transactions = () => {
                 <span className='filterIcon'><FilterIcon /></span>
             </div>
             <div className='date-range'>
-                <input id='week-start' type='week' onChange={(e) => { setWeekStart(e.target.value) }}></input>
-                <input id='week-end' type='week' onChange={(e) => { setWeekEnd(e.target.value) }}></input>
                 <p>{weekStart} -</p>
                 <p>{weekEnd}</p>
+                <input id='week-start' type='date' value={new Date().toISOString().slice(0, -1)} onChange={(e) => { setWeekStart(e.target.value) }}></input>
+                <input id='week-end' type='date' onChange={(e) => { setWeekEnd(e.target.value) }}></input>
             </div>
             {transactions.map((transaction) => {
                 // console.log(transaction)
