@@ -29,19 +29,19 @@ const Dashboard = ({ username }) => {
             }
         }
         fetchTables();
-        console.log('setTablessworked', dataTables);
+        // console.log('setTablessworked', dataTables);
     }, [])
-
+    console.log('setTablessworked', dataTables);
     return (
 
         <div className='dashboard'>
-            <Navbar className='Navbar' username={username} />
-            <Overview className='Overview' dataTables={dataTables} setDataTables={setDataTables} />
-            <Transactions className='Transactions' dataTables={dataTables} setDataTables={setDataTables} />
-            <Budget className='Budget' dataTables={dataTables} setDataTables={setDataTables} />
-            <Goals className='Goals' dataTables={dataTables} setDataTables={setDataTables} />
+            <Navbar  username={username} />
+            <Overview  dataTables={dataTables} setDataTables={setDataTables} />
+            <Transactions  dataTables={dataTables} setDataTables={setDataTables} />
+            <Budget  dataTables={dataTables} setDataTables={setDataTables} />
+            <Goals  dataTables={dataTables} setDataTables={setDataTables} />
             <button id='sidebar buttons'> button name</button>
-            <Sidebar className='Sidebar' dataTables={dataTables} setDataTables={setDataTables} />
+            <Sidebar  dataTables={dataTables} setDataTables={setDataTables} />
         </div>
     )
 
