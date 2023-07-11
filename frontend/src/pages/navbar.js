@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NotificationIcon from '../images/Iconsax/Linear/notification';
+import NotificationIcon from '../images/Icons/notification';
 import './navbar.css';
 import '../index.css'
 

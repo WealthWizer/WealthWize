@@ -1,0 +1,108 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    background-color: #FFF;
+
+}
+
+.filterIcon {
+    background-color: #FFF;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    left: 75px;
+    width: 20px;
+    height: 20px;
+}
+
+.header select,
+option {
+    font-family: Inter;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 00;
+    line-height: 100%;
+    letter-spacing: -0.48px;
+}
+
+.header select,
+option:checked {
+    color: transparent;
+    background-color: transparent;
+    outline: none;
+}
+
+.header select,
+option:hover {
+    cursor: pointer;
+}
+
+.date-range {
+    display: flex;
+    /* justify-content: start; */
+    /* align-items: flex-start; */
+    align-self: stretch;
+    background-color: #FFF;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: -0.48px;
+}
+
+input[type="week"] {
+    /* display: none; */
+    margin: 16px 0;
+    background-color: #FFF;
+    width: 30px;
+}
+
+#week-start {
+    position: sticky;
+    /* top: 10px; */
+    /* left: 80px; */
+}
+
+
+#week-end {
+    position: sticky;
+    /* bottom: 20px;
+    left: 10px; */
+}
+
+.single-transaction {
+    color: #0A0909;
+    font-size: 12px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.48px;
+    display: flex;
+    padding: 0 0 16px 0;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    background-color: #FFF;
+    border-bottom: 1px solid #EEE;
+}
+
+#transaction-category {
+    padding-top: 5px;
+    color: #0a090966;
+}
+
+h1,
+p {
+    background-color: #FFF;
+    margin: 0;
+    padding: 0;
+}
