@@ -66,7 +66,15 @@ function LoginPage() {
           </div>
 
           <div>
-            Not saving yet? <span className="bold">Sign up here</span>
+            Not saving yet?{" "}
+            <span
+              className="bold"
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+              Sign up here
+            </span>
           </div>
           <button className="login-signup-btn" onClick={handleLoginSubmit}>
             Log In
