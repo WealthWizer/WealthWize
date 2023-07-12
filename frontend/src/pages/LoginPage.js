@@ -31,7 +31,11 @@ function LoginPage() {
         }
       );
       if (response.data.token) {
-        auth.login(response.data.token, username);
+        auth.login(
+          response.data.token,
+          response.data.username,
+          response.data.userID
+        );
         navigate("/dashboard");
       }
     } catch (err) {

@@ -9,7 +9,12 @@ exports.login = async (req, res, next) => {
       username === result.rows[0].username &&
       password === result.rows[0].password
     ) {
-      res.status(200).json({ status: "success", token: "fake token" });
+      res.status(200).json({
+        status: "success",
+        token: "fake token",
+        username: result.rows[0].username,
+        userID: result.rows[0].id,
+      });
     } else {
       next("username or password is incorrect");
     }
