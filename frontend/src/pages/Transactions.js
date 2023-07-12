@@ -109,13 +109,13 @@ const Transactions = ({ datatables }) => {
                 <input id='week-end' type='date' value={dateEnd} onChange={(e) => { handleEnd(e.target.value) }}></input>
             </div>
             {filterTransaction && transactions.map((transaction) => {
-                // console.log(transaction)
+                console.log(transaction)
                 return (
                     <>
                         <div className='single-transaction'>
                             <div key={transaction.id} className='transaction-firstline'>
                                 {/* <p>{transaction.item}</p> */}
-                                <p>TBD</p>
+                                <p>{transaction.vendorName}</p>
                                 <p id='transaction-category'>{transaction.category}</p>
                             </div>
                             <p >{transaction.amount}</p>
