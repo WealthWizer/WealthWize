@@ -7,45 +7,45 @@ import Transactions from './Transactions.js';
 import Overview from './Overview.js';
 import './dashboard.css';
 
-const Dashboard = ({username, setIsLoggedIn})=>{
+const Dashboard = ({ username }) => {
     // const auth=useContext(AuthContext);
     // const useID=auth.userID;
 
     //declare states
-    const [dataTables,setDataTables]=useState({});
+    const [dataTables, setDataTables] = useState({});
 
-    useEffect(()=>{
-        const fetchTables = async()=>{
-            try{
+    useEffect(() => {
+        const fetchTables = async () => {
+            try {
                 const response = await fetch('http://localhost:3000/dashboard');
-                const jsonData=await response.json();
+                const jsonData = await response.json();
                 // console.log('jsonData', jsonData.savings)
-                setDataTables({...jsonData});
+                setDataTables({ ...jsonData });
 
 
             }
-            catch(error){
+            catch (error) {
                 console.log('error at fetchTables: ', error);
             }
         }
         fetchTables();
-        console.log('setTablessworked',dataTables);
-    },[])
-
-    return(
+        // console.log('setTablessworked', dataTables);
+    }, [])
+    // console.log('setTablessworked', dataTables);
+    return (
 
         <div className='dashboard'>
-        <Navbar className='Navbar' username={username} setIsLoggedIn={setIsLoggedIn}/>
-        <Overview className='Overview' dataTables={dataTables} setDataTables={setDataTables}/>
-        <Transactions className='Transactions' dataTables={dataTables} setDataTables={setDataTables}/>
-        <Budget className='Budget' dataTables={dataTables} setDataTables={setDataTables}/>
-        <Goals className='Goals' dataTables={dataTables} setDataTables={setDataTables}/>
-        <button id='sidebar buttons'> button name</button>
-        <Sidebar className='Sidebar' dataTables={dataTables} setDataTables={setDataTables}/>
+            <Navbar  username={username} />
+            <Overview  dataTables={dataTables} setDataTables={setDataTables} />
+            <Transactions  dataTables={dataTables} setDataTables={setDataTables} />
+            <Budget  dataTables={dataTables} setDataTables={setDataTables} />
+            <Goals  dataTables={dataTables} setDataTables={setDataTables} />
+            <button id='sidebar buttons'> button name</button>
+            <Sidebar  dataTables={dataTables} setDataTables={setDataTables} />
         </div>
     )
 
- }
+}
 
 
 export default Dashboard;

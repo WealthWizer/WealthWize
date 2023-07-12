@@ -20,13 +20,15 @@ app.use(express.json());
 
 // ROUTES
 app.use("/api/users", userRouter);
-app.use("/dashboard", dataRoutes, (req,res)=>{
-    return res.status(200)
-    .json({savings: res.locals.savings,
-    budget: res.locals.budget,
-    savings_goals: res.locals.savings_goals,
-    transactions: res.locals.transactions,
-    users: res.locals.users});
+app.use("/dashboard", dataRoutes, (req, res) => {
+  return res.status(200)
+    .json({
+      savings: res.locals.savings,
+      budget: res.locals.budget,
+      savings_goals: res.locals.savings_goals,
+      transactions: res.locals.transactions,
+      users: res.locals.users
+    });
 }
 );
 // GLOBAL ERROR HANDLER
