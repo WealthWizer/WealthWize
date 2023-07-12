@@ -1,0 +1,64 @@
+.logo {
+    color: #0A0909;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 100%;
+    letter-spacing: -1.5px;
+    margin-left: 40px;
+}
+
+.navbar-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    margin-right: 40px;
+}
+
+.notificationIcon {
+    transition: all 0.3s ease;
+}
+
+.notificationIcon:hover {
+    stroke: #1E9700;
+    cursor: pointer;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    margin-right: 45px;
+}
+
+.user-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    margin: 0 20px 0 0;
+}
+
+.user p {
+    color: #0A0909;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.32px;
+}
+
+button {
+    background: transparent;
+    outline: none;
+    border-style: none;
+    color: #0A0909;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.32px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    color: #1E9700;
+    cursor: pointer;
+}

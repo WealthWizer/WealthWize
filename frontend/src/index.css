@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Koulen&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inter;
+  background-color: #E8E5E2;
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
