@@ -4,7 +4,6 @@
     align-items: flex-start;
     align-self: stretch;
     background-color: #FFF;
-
 }
 
 .filterIcon {
@@ -47,8 +46,6 @@ option:hover {
 
 .date-range {
     display: flex;
-    /* justify-content: start;
-    align-items: flex-start; */
     align-self: stretch;
     background-color: #FFF;
     font-style: normal;
@@ -61,7 +58,6 @@ option:hover {
 .date-input {
     display: flex;
     align-self: stretch;
-    /* height: ; */
 }
 
 input[type="date"] {
@@ -75,14 +71,14 @@ input[type="date"] {
 #week-start {
     position: relative;
     bottom: 20px;
-    right: 125px;
+    right: 140px;
 }
 
 
 #week-end {
     position: relative;
     bottom: 20px;
-    right: 120px;
+    right: 125px;
 }
 
 .single-transaction {
@@ -112,4 +108,50 @@ p {
     background-color: #FFF;
     margin: 0;
     padding: 0;
+}
+
+.categories {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    justify-content: space-between;
+    background-color: #FFF;
+}
+
+.category-data {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    background-color: #FFF;
+}
+
+.category-data div {
+    color: #0A0909;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.48px;
+    background-color: #FFF;
+}
+
+.category-bars {
+    display: flex;
+    padding: 12px 0 0 0;
+    background-color: #FFF;
+}
+
+.green-bar {
+    background-color: #1E9700;
+    height: 5px;
+    width: 0;
+    border-radius: 32px;
+}
+
+.grey-bar {
+    height: 5px;
+    opacity: 0.10000000149011612;
+    background: #000;
+    border-radius: 32px;
 }

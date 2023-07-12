@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import FilterIcon from '../images/Icons/filter';
 import './transaction.css';
-import '../index.css';
-import { use } from 'bcrypt/promises';
-import { set } from 'mongoose';
+// import { use } from 'bcrypt/promises';
+// import { set } from 'mongoose';
 
 const Transactions = ({ datatables }) => {
     // CREATING CURRENT DATE STARTING 1 MONTH BEFORE
     const d = new Date();
-    const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth() - 1)).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
-    const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
+    const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
+    const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
 
     // SETTING STATE
     const [transactions, setTransactions] = useState([]);
@@ -17,6 +16,8 @@ const Transactions = ({ datatables }) => {
     const [dateEnd, setDateEnd] = useState(dStringEnd);
     const [filterTransaction, setFilterTransaction] = useState(true);
     const [filterCategory, setFilterCategory] = useState(false);
+    const [total, setTotal] = useState();
+    const [categories, setCategories] = useState({});
     // const [transactions, setTransactions] = useState();
     // const [transactions, setTransactions] = useState(datatables);
 
@@ -25,9 +26,11 @@ const Transactions = ({ datatables }) => {
     const handleStart = (date) => {
         setDateStart(date);
     }
+
     const handleEnd = (date) => {
         setDateEnd(date);
     }
+
     const handleOnChange = (value) => {
         if (value === 'Transactions') {
             setFilterTransaction(true);
@@ -35,8 +38,25 @@ const Transactions = ({ datatables }) => {
         } else if (value === 'Categories') {
             setFilterTransaction(false);
             setFilterCategory(true);
+            categoryMaker();
         }
     }
+
+    const categoryMaker = () => {
+        // console.log('transactions: ', transactions)
+        const categoryObj = {};
+        let total = 0;
+
+        transactions.forEach((transaction) => {
+            categoryObj[transaction.category] = (categoryObj[transaction.category] || 0) + transaction.amount;
+            total += transaction.amount;
+        })
+
+        setCategories(categoryObj)
+        setTotal(total);
+        console.log('categoryObj: ', categoryObj)
+        console.log('total: ', total)
+    };
 
 
 
@@ -57,9 +77,12 @@ const Transactions = ({ datatables }) => {
             .then((data) => {
                 // receiving object  with transaction.item, transaction.amount, transaction.category, user.id
                 setTransactions(data)
+                if (filterCategory) categoryMaker();
             })
             .catch(err => console.log(err))
-    }, [dateStart, dateEnd]);
+    }, [dateStart, dateEnd, JSON.stringify(transactions)]);
+
+
 
     // const month = dateEnd[0];
     // console.log('month ', month)
@@ -67,7 +90,7 @@ const Transactions = ({ datatables }) => {
     // console.log('dateEnd:', dateEnd)
     // console.log('dateStart:', dateStart)
     // console.log('transactions:', transactions)
-    // console.log('category: ', filterCategory)
+    console.log('categories: ', categories)
 
     return (
         <div className='Transactions'>
@@ -100,6 +123,26 @@ const Transactions = ({ datatables }) => {
                     </>
                 )
             })
+            }
+            {filterCategory &&
+                Object.entries(categories).sort((a, b) => b[1] - a[1]).map((category) => {
+
+                    const greenBar = Math.trunc(category[1] / total * 100);
+                    const greyBar = 100 - greenBar;
+
+                    return (
+                        <div className='categories'>
+                            <div className='category-data'>
+                                <div>{category[0]}</div>
+                                <div>${category[1]}</div>
+                            </div>
+                            <div className='category-bars'>
+                                <div className='green-bar' style={{ width: `${greenBar}%` }}></div>
+                                <div className='grey-bar' style={{ width: `${greyBar}%` }}></div>
+                            </div>
+                        </div>
+                    )
+                })
             }
         </div>
     )
