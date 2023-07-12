@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import NotificationIcon from "../images/Iconsax/Linear/notification";
+import NotificationIcon from "../images/Icons/notification";
 import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
