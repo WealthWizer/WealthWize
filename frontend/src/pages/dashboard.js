@@ -15,6 +15,7 @@ const Dashboard = ({ username }) => {
   //declare states
   const [dataTables, setDataTables] = useState({});
 
+
   useEffect(() => {
     const fetchTables = async () => {
       try {
@@ -33,6 +34,7 @@ const Dashboard = ({ username }) => {
   }, []);
   // console.log('setTablessworked', dataTables);
 
+
   return (
     <div className="dashboard">
       <Navbar username={username} />
@@ -45,5 +47,6 @@ const Dashboard = ({ username }) => {
     </div>
   );
 };
+
 
 export default Dashboard;
