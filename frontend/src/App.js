@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import LoginPage from "./pages/LoginPage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import Signup from "./pages/Signup";
+import LoginPage from "./pages/LoginPage";
 import { AuthContext } from "./authContext";
 import "./index.css";
-import { use } from "bcrypt/promises";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -52,8 +51,6 @@ function App() {
                   path="/dashboard"
                   element={<Dashboard username={username} />}
                 />
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/signup" element={<Signup />} />
               </>
             ) : (
               <>
