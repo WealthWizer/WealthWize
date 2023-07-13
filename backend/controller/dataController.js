@@ -82,7 +82,7 @@ dataController.transactions = async (req, res, next)=>{
    try{
 
        //change querystr when figured out if we are matching userid or username
-       const querystr =  'SELECT * FROM "public"."transactions"'
+       const querystr =  'SELECT * FROM "public"."transactions" ORDER BY date LIMIT 100';
        const result = await db.query(querystr);
    
        const transactionsTable=result.rows;

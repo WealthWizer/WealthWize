@@ -12,7 +12,7 @@ transactionController.rangeOfTransactions = async (req, res, next) => {
         if (!result) {
             next('no db result')
         } else {
-            console.log('----> rangeOfTRansaction results: ', result.rows);
+            // console.log('----> rangeOfTRansaction results: ', result.rows);
             res.status(200).send(result.rows)
         }
     }

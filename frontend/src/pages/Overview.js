@@ -1,5 +1,5 @@
 import React, { useState,useEffect, useContext } from 'react';
-
+import './Overview.css';
 const Overview =({dataTables})=>{
 
 const [total, setTotal] = useState(null);
@@ -37,9 +37,14 @@ console.log(dataTables.savings);
 
     return(
         <div className='Overview'>
-            <h1>total: {total}</h1>
-            <p>Checking: {accounts.checking}</p>
-            <p>savings: {accounts.savings}</p>
+            <p>Total Amount: </p>
+            <h1 className='total'>{total}</h1>
+            <div className= 'accounts'>
+            <p>Checking: </p> 
+                <span>{accounts.checking}</span>
+                <p>Savings: </p> 
+                <span>{accounts.savings}</span>
+            </div>
         </div>
     )
 }
