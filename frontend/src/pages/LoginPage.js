@@ -31,6 +31,7 @@ function LoginPage() {
         }
       );
       if (response.data.token) {
+        console.log("IMPORTANT", response.data);
         auth.login(
           response.data.token,
           response.data.username,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
@@ -16,10 +16,13 @@ function App() {
     setToken(token);
     setUsername(user);
     setUserID(userID);
+
     localStorage.setItem(
       "data",
       JSON.stringify({
         token: token,
+        username: user,
+        userID: userID,
       })
     );
   };
@@ -31,17 +34,33 @@ function App() {
     localStorage.removeItem("data");
   };
 
+  useEffect(() => {
+    const lsData = JSON.parse(localStorage.getItem("data"));
+    if (lsData && lsData.token) {
+      login(lsData.token, lsData.username, lsData.userID);
+    }
+  }, []);
+
   return (
     <>
       <AuthContext.Provider value={{ token, login, logout, userID, username }}>
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/dashboard"
-              element={<Dashboard username={username} />}
-            />
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/signup" element={<Signup />} />
+            {token ? (
+              <>
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard username={username} />}
+                />
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/signup" element={<Signup />} />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/signup" element={<Signup />} />
+              </>
+            )}
           </Routes>
         </BrowserRouter>
       </AuthContext.Provider>

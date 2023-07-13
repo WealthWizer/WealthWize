@@ -59,6 +59,8 @@ exports.protectRoute = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
+  console.log("This is the authHeader", authHeader);
+
   // CHECK IF TOKEN EXISTS
   if (!token) {
     next("no token");
