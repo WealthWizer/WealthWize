@@ -10,23 +10,30 @@ import { use } from "bcrypt/promises";
 function App() {
   const [token, setToken] = useState(false);
   const [username, setUsername] = useState("");
+  const [userID, setUserID] = useState("");
 
-  const login = (token, user) => {
+  const login = (token, user, userID) => {
     setToken(token);
+    setUsername(user);
+    setUserID(userID);
     localStorage.setItem(
       "data",
       JSON.stringify({
         token: token,
       })
     );
-    setUsername(user);
   };
 
-  const logout = () => { };
+  const logout = () => {
+    setToken(null);
+    setUsername(null);
+    setUserID(null);
+    localStorage.removeItem("data");
+  };
 
   return (
     <>
-      <AuthContext.Provider value={{ token, login, logout }}>
+      <AuthContext.Provider value={{ token, login, logout, userID, username }}>
         <BrowserRouter>
           <Routes>
             <Route
