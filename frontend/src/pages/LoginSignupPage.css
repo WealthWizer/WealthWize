@@ -61,6 +61,7 @@
 
 .bold {
   font-weight: 700;
+  cursor: pointer;
 }
 
 .first-last {
