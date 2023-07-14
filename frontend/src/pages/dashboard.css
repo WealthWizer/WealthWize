@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     /* grid-template-rows: repeat(4, 1fr); */
-        grid-template-rows: 80px, 200px, 200px,500px;
+    grid-template-rows: 80px, 200px, 200px, 500px;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
@@ -17,9 +17,9 @@
 
 .Overview {
     grid-area: 2 / 1 / 3 / 8;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 250px;
-    margin-top:0px;
+    margin-top: 65px;
 }
 
 .Transactions {
@@ -46,6 +46,14 @@
 
 .Goals {
     grid-area: 3 / 6 / 5 / 8;
-    border: 1px solid black;
-    height: 60px;
+    width: 360px;
+    height: 479px;
+    padding: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #FFF;
+    margin-right: 40px;
 }

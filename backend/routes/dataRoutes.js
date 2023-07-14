@@ -22,4 +22,6 @@ router.get(
 
 router.post("/transaction", transactionController.rangeOfTransactions);
 
+router.post("/savinggoals", transactionController.goalTracker);
+
 module.exports = router;
