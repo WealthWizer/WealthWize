@@ -1,0 +1,101 @@
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-self: stretch;
+    background-color: #FFF;
+}
+
+.donut {
+    /* opacity: 0.5; */
+    background-color: #FFF;
+    /* height: 400px; */
+    margin: 60px 0 0 0;
+    position: relative;
+    right: 35px;
+}
+
+.donut-div {
+    /* background-color: transparent; */
+    margin: 60px 0 0 0;
+}
+
+.goal-header select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    left: 138px;
+    bottom: 5px;
+    width: 35px;
+    height: 35px;
+}
+
+/* .filterIcon {
+    background-color: #FFF;
+    position: relative;
+    left: 20px;
+} */
+
+.goal-header select,
+option {
+    font-family: Inter;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 00;
+    line-height: 100%;
+    letter-spacing: -0.48px;
+}
+
+.goal-header select,
+option:checked {
+    color: transparent;
+    background-color: transparent;
+    outline: none;
+}
+
+.goal-header select,
+option:hover {
+    cursor: pointer;
+}
+
+.apexcharts-canvas {
+    background-color: transparent;
+
+}
+
+.donut-label {
+    position: relative;
+    bottom: 165px;
+    background-color: transparent;
+}
+
+#donut-h1 {
+    color: #0A0909;
+    text-align: center;
+    font-size: 48px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -4.48px;
+    background-color: transparent;
+}
+
+#donut-p {
+    color: #0A0909;
+    text-align: center;
+    font-size: 16px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.64px;
+    background-color: transparent;
+}
+
+.apexcharts-legend {
+    background-color: transparent;
+}

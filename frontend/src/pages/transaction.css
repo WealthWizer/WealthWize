@@ -6,20 +6,27 @@
     background-color: #FFF;
 }
 
-.filterIcon {
-    background-color: #FFF;
+.header span {
+    background-color: transparent;
 }
 
-select {
+.filterIcon {
+    background-color: #FFF;
+    position: relative;
+    left: 20px;
+}
+
+.header select {
     appearance: none;
     -webkit-appearance: none;
-    -moz-appearance: none;
+    -moz-appearance: none; 
     border: none;
     background-color: transparent;
     position: relative;
-    left: 75px;
-    width: 20px;
-    height: 20px;
+    left: 98px;
+    bottom: 5px;
+    width: 35px;
+    height: 35px;
 }
 
 .header select,
@@ -66,6 +73,7 @@ input[type="date"] {
     background-color: #FFF;
     width: 60px;
     cursor: pointer;
+    position: relative;
 }
 
 #week-start {
