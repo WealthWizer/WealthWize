@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get(
   "/",
-  authController.protectRoute,
+  // authController.protectRoute,
   dataController.savings,
   dataController.budget,
   dataController.savings_goals,
