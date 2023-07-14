@@ -39,10 +39,12 @@ const Dashboard = ({ username }) => {
     <div className="dashboard">
       <Navbar username={username} />
       <Overview dataTables={dataTables} setDataTables={setDataTables} />
-      <Transactions dataTables={dataTables} setDataTables={setDataTables} />
-      <Budget dataTables={dataTables} setDataTables={setDataTables} />
-      <Goals dataTables={dataTables} setDataTables={setDataTables} />
-      {/* <button id="sidebar buttons"> button name</button> */}
+      <div className="components">
+        <Transactions dataTables={dataTables} setDataTables={setDataTables} />
+        <Budget dataTables={dataTables} setDataTables={setDataTables} />
+        <Goals dataTables={dataTables} setDataTables={setDataTables} />
+      </div>
+      <button id="sidebar buttons"> button name</button>
       {/* <Sidebar dataTables={dataTables} setDataTables={setDataTables} /> */}
     </div>
   );
