@@ -23,7 +23,7 @@ const Dashboard = ({ username }) => {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         const jsonData = await response.json();
-        console.log("here is the jsonDATA", jsonData);
+        // console.log("here is the jsonDATA", jsonData);
         // console.log('jsonData', jsonData.savings)
         setDataTables({ ...jsonData });
       } catch (error) {
@@ -33,7 +33,7 @@ const Dashboard = ({ username }) => {
     fetchTables();
     // console.log('setTablessworked', dataTables);
   }, []);
-  // console.log('setTablessworked', dataTables);
+  // console.log('setTablessworked', dataTables.budget);
 
   return (
     <div className="dashboard">

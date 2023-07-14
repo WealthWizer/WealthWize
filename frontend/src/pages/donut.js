@@ -17,7 +17,7 @@ export default function ApexDonut({ goals, dropDown, setReachGoal }) {
         }
     })
 
-    console.log('series: ', series)
+    // console.log('series: ', series)
 
     if (series[0] < 100) {
         setReachGoal(false);

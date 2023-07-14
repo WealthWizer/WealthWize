@@ -38,7 +38,7 @@ const Goals = () => {
                         });
                     }
                 });
-                console.log('goalsFromDB: ', goalsFromDB)
+                // console.log('goalsFromDB: ', goalsFromDB)
                 setGoals(goalsFromDB);
                 setDropDown(goalsFromDB[0].category)
             })
@@ -52,8 +52,8 @@ const Goals = () => {
 
 
 
-    console.log('dropDown: ', dropDown)
-    console.log('goals: ', goals)
+    // console.log('dropDown: ', dropDown)
+    // console.log('goals: ', goals)
 
     return (
         <div className='Goals'>
