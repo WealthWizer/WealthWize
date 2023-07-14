@@ -10,7 +10,6 @@ const Signup = () => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(event.target.firstName.value);
     const response = await axios.post(
       "http://localhost:3000/api/users/signup",
       {
