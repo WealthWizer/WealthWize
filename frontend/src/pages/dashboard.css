@@ -46,11 +46,14 @@
     height: 479px;
     width:700px;
     display:flex;
+    flex-direction:column;
+    padding:40px;
     border: none;
 
 }
-.Budget budgetchart{
-    width:600px;
+.Budget h1{
+    width: 600px;
+
 }
 
 .Goals {

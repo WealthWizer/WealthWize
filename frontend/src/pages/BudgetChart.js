@@ -40,6 +40,7 @@ const BudgetChart = ({ totalBudget, sumTrans, transactions }) => {
       },
 
     ],
+    colors:['#1E9700', '#CCFF79', '#FC6238'],
     // fill:{
     //     type:'gradient',
     //     gradient:{
@@ -117,7 +118,7 @@ const BudgetChart = ({ totalBudget, sumTrans, transactions }) => {
 
   return (
     <div className="budgetchart">
-      <Chart options={chartvals} series={chartvals.series} type="line" height="500" width="600" />
+      <Chart options={chartvals} series={chartvals.series} type="line" height="400" width="600" />
     </div>
   );
 };

@@ -123,6 +123,7 @@ CumulativeTrans();
 
     return(
         <div className='Budget'>
+            <h1>Monthly Spending</h1>
             {/* <p>{JSON.stringify(transactions)}</p> */}
             <BudgetChart totalBudget={totalBudget} sumTrans={sumTrans} transactions ={transactions}/>
         </div>
