@@ -44,8 +44,8 @@ const Dashboard = ({ username }) => {
       <Transactions dataTables={dataTables} setDataTables={setDataTables} />
       <Budget dataTables={dataTables} setDataTables={setDataTables} />
       <Goals dataTables={dataTables} setDataTables={setDataTables} />
-      <button id="sidebar buttons"> button name</button>
-      <Sidebar dataTables={dataTables} setDataTables={setDataTables} />
+      {/* <button id="sidebar buttons"> button name</button> */}
+      {/* <Sidebar dataTables={dataTables} setDataTables={setDataTables} /> */}
     </div>
   );
 };

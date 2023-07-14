@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import FilterIcon from '../images/Icons/filter';
 import './transaction.css';
+import { AuthContext } from "../authContext.js";
 // import { use } from 'bcrypt/promises';
 // import { set } from 'mongoose';
 
@@ -11,6 +12,7 @@ const Transactions = ({ datatables }) => {
     const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
 
     // SETTING STATE
+    const auth = useContext(AuthContext);
     const [transactions, setTransactions] = useState([]);
     const [dateStart, setDateStart] = useState(dStringStart);
     const [dateEnd, setDateEnd] = useState(dStringEnd);
@@ -66,9 +68,11 @@ const Transactions = ({ datatables }) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.token}`
             },
             body: JSON.stringify({
                 // sending month for range of month - weekStart and weekEnd
+                userID: auth.userID,
                 dateStart: dateStart,
                 dateEnd: dateEnd
             })
