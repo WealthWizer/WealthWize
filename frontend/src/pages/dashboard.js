@@ -9,7 +9,7 @@ import "./dashboard.css";
 import { AuthContext } from "../authContext.js";
 
 const Dashboard = ({ username }) => {
-  // const auth=useContext(AuthContext);
+  const auth=useContext(AuthContext);
   // const useID=auth.userID;
 
   //declare states

@@ -54,8 +54,8 @@ const Transactions = ({ datatables }) => {
 
         setCategories(categoryObj)
         setTotal(total);
-        console.log('categoryObj: ', categoryObj)
-        console.log('total: ', total)
+        // console.log('categoryObj: ', categoryObj)
+        // console.log('total: ', total)
     };
 
 
@@ -90,7 +90,7 @@ const Transactions = ({ datatables }) => {
     // console.log('dateEnd:', dateEnd)
     // console.log('dateStart:', dateStart)
     // console.log('transactions:', transactions)
-    console.log('categories: ', categories)
+    // console.log('categories: ', categories)
 
     return (
         <div className='Transactions'>
@@ -109,7 +109,7 @@ const Transactions = ({ datatables }) => {
                 <input id='week-end' type='date' value={dateEnd} onChange={(e) => { handleEnd(e.target.value) }}></input>
             </div>
             {filterTransaction && transactions.map((transaction) => {
-                console.log(transaction)
+                // console.log(transaction)
                 return (
                     <>
                         <div className='single-transaction'>
