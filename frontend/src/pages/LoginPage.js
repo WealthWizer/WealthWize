@@ -22,7 +22,6 @@ function LoginPage() {
 
   const handleLoginSubmit = async () => {
     try {
-      console.log(username, password);
       const response = await axios.post(
         "http://localhost:3000/api/users/login",
         {
