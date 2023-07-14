@@ -6,23 +6,24 @@ import Sidebar from "./Sidebar.js";
 import Transactions from "./Transactions.js";
 import Overview from "./Overview.js";
 import "./dashboard.css";
-import { AuthContext } from "../authContext.js";
+import { AuthContext } from "../authContext";
 
 const Dashboard = ({ username }) => {
-  // const auth=useContext(AuthContext);
-  // const useID=auth.userID;
+  const auth = useContext(AuthContext);
+  console.log(" here is the token", auth);
 
   //declare states
   const [dataTables, setDataTables] = useState({});
 
-
   useEffect(() => {
     const fetchTables = async () => {
       try {
+        // console.log("hello from useEffect");
         const response = await fetch("http://localhost:3000/dashboard", {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         const jsonData = await response.json();
+        console.log("here is the jsonDATA", jsonData);
         // console.log('jsonData', jsonData.savings)
         setDataTables({ ...jsonData });
       } catch (error) {
@@ -33,7 +34,6 @@ const Dashboard = ({ username }) => {
     // console.log('setTablessworked', dataTables);
   }, []);
   // console.log('setTablessworked', dataTables);
-
 
   return (
     <div className="dashboard">
@@ -47,6 +47,5 @@ const Dashboard = ({ username }) => {
     </div>
   );
 };
-
 
 export default Dashboard;
