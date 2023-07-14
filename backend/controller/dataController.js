@@ -28,7 +28,7 @@ dataController.savings = async (req, res, next)=>{
 
 //budget
 dataController.budget = async (req, res, next)=>{
-    // console.log('i am in dataController.budget')
+    // console.log('i am in dataController.budget');
    try{
 
        //change querystr when figured out if we are matching userid or username

@@ -21,10 +21,10 @@ function App() {
 
     // AUTO LOGOUT TIME SET (YOU CAN PLAY AROUND WITH THAT TIME TO AUTO LOGOUT)
     const hourInMili = 1000 * 60 * 60;
-    const tenSecInMili = 10000;
+    // const tenSecInMili = 10000;
 
     // SET TO EITHER EXP TIME FROM PREV OR CURRENT TIME + 1 Hour
-    const autoLogoutTime = exp || new Date(new Date().getTime() + tenSecInMili);
+    const autoLogoutTime = exp || new Date(new Date().getTime() + hourInMili);
 
     setExpTime(autoLogoutTime);
 

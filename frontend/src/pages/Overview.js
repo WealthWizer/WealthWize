@@ -1,4 +1,5 @@
 import React, { useState,useEffect, useContext } from 'react';
+
 import './Overview.css';
 const Overview =({dataTables})=>{
 
@@ -10,8 +11,9 @@ console.log(dataTables.savings);
     useEffect(() => {
         const fetchSavings = async () => {
           try {
-            let savingsTable = dataTables.savings;
-            console.log(savingsTable);
+
+            let savingsTable = dataTables?.savings; // Null check using optional chaining
+
             let savingsSum = 0;
             savingsTable.forEach((row) => {
               savingsSum += row.amount;

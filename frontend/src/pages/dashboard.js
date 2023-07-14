@@ -9,8 +9,10 @@ import "./dashboard.css";
 import { AuthContext } from "../authContext";
 
 const Dashboard = ({ username }) => {
+
   const auth = useContext(AuthContext);
   console.log(" here is the token", auth);
+
 
   //declare states
   const [dataTables, setDataTables] = useState({});
