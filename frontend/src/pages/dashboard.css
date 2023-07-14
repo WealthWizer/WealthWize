@@ -69,3 +69,9 @@
     background: #FFF;
     margin-right: 40px;
 }
+
+.components {
+    grid-area: 3 / 1 / 3 / 8;
+    display: flex;
+    justify-content: space-between;
+}

@@ -25,7 +25,7 @@ const Dashboard = ({ username }) => {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         const jsonData = await response.json();
-        console.log("here is the jsonDATA", jsonData);
+        // console.log("here is the jsonDATA", jsonData);
         // console.log('jsonData', jsonData.savings)
         setDataTables({ ...jsonData });
       } catch (error) {
@@ -35,16 +35,18 @@ const Dashboard = ({ username }) => {
     fetchTables();
     // console.log('setTablessworked', dataTables);
   }, []);
-  // console.log('setTablessworked', dataTables);
+  // console.log('setTablessworked', dataTables.budget);
 
   return (
     <div className="dashboard">
       <Navbar username={username} />
       <Overview dataTables={dataTables} setDataTables={setDataTables} />
-      <Transactions dataTables={dataTables} setDataTables={setDataTables} />
-      <Budget dataTables={dataTables} setDataTables={setDataTables} />
-      <Goals dataTables={dataTables} setDataTables={setDataTables} />
-      {/* <button id="sidebar buttons"> button name</button> */}
+      <div className="components">
+        <Transactions dataTables={dataTables} setDataTables={setDataTables} />
+        <Budget dataTables={dataTables} setDataTables={setDataTables} />
+        <Goals dataTables={dataTables} setDataTables={setDataTables} />
+      </div>
+      <button id="sidebar buttons"> button name</button>
       {/* <Sidebar dataTables={dataTables} setDataTables={setDataTables} /> */}
     </div>
   );

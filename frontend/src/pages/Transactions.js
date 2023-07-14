@@ -5,7 +5,7 @@ import { AuthContext } from "../authContext.js";
 // import { use } from 'bcrypt/promises';
 // import { set } from 'mongoose';
 
-const Transactions = ({ datatables }) => {
+const Transactions = ({ dataTables }) => {
     // CREATING CURRENT DATE STARTING 1 MONTH BEFORE
     const d = new Date();
     const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
@@ -20,8 +20,8 @@ const Transactions = ({ datatables }) => {
     const [filterCategory, setFilterCategory] = useState(false);
     const [total, setTotal] = useState();
     const [categories, setCategories] = useState({});
-    // const [transactions, setTransactions] = useState();
-    // const [transactions, setTransactions] = useState(datatables);
+    // const [budget, setBudget] = useState(dataTables);
+    const budget = dataTables.budget;
 
 
     // HANDLERS
@@ -46,13 +46,14 @@ const Transactions = ({ datatables }) => {
 
     const categoryMaker = () => {
         // console.log('transactions: ', transactions)
-        const categoryObj = {};
+        const categoryObj = [];
         let total = 0;
 
         transactions.forEach((transaction) => {
             categoryObj[transaction.category] = (categoryObj[transaction.category] || 0) + transaction.amount;
             total += transaction.amount;
         })
+
 
         setCategories(categoryObj)
         setTotal(total);
@@ -86,8 +87,12 @@ const Transactions = ({ datatables }) => {
             .catch(err => console.log(err))
     }, [dateStart, dateEnd, JSON.stringify(transactions)]);
 
+    // useEffect(() => {
+    //     setBudget(dataTables.budget)
+    // }, [dataTables]);
 
 
+    console.log('dataTables Budget: ', budget)
     // const month = dateEnd[0];
     // console.log('month ', month)
     // console.log('d:', d)
@@ -106,12 +111,14 @@ const Transactions = ({ datatables }) => {
                 </select>
                 <span className='filterIcon'><FilterIcon /></span>
             </div>
-            <div className='date-range'>
-                <p>{dateStart} -</p>
-                <p>{dateEnd}</p>
-                <input id='week-start' type='date' value={dateStart} onChange={(e) => { handleStart(e.target.value) }}></input>
-                <input id='week-end' type='date' value={dateEnd} onChange={(e) => { handleEnd(e.target.value) }}></input>
-            </div>
+            {filterTransaction &&
+                <div className='date-range'>
+                    <p>{dateStart} -</p>
+                    <p>{dateEnd}</p>
+                    <input id='week-start' type='date' value={dateStart} onChange={(e) => { handleStart(e.target.value) }}></input>
+                    <input id='week-end' type='date' value={dateEnd} onChange={(e) => { handleEnd(e.target.value) }}></input>
+                </div>
+            }
             {filterTransaction && transactions.map((transaction) => {
                 // console.log(transaction)
                 return (
@@ -130,7 +137,14 @@ const Transactions = ({ datatables }) => {
             }
             {filterCategory &&
                 Object.entries(categories).sort((a, b) => b[1] - a[1]).map((category) => {
-
+                    
+                    let total = 0;
+                    budget.forEach((element) => {
+                        if (element.category == category[0]) {
+                            total = element.budget;
+                        }
+                    });
+                    // console.log(total, category[1])
                     const greenBar = Math.trunc(category[1] / total * 100);
                     const greyBar = 100 - greenBar;
 

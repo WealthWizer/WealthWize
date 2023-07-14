@@ -5,7 +5,7 @@ const Overview =({dataTables})=>{
 
 const [total, setTotal] = useState(null);
 const [accounts, setAccounts] = useState({checking:5000, savings:0});
-console.log(dataTables.savings);
+// console.log(dataTables.savings);
 
 
     useEffect(() => {
