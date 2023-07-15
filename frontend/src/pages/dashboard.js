@@ -16,6 +16,7 @@ const Dashboard = ({ username }) => {
   //declare states
   const [dataTables, setDataTables] = useState({});
   const [sidebar, setSidebar] = useState(false);
+  const [rerender, setRerender] = useState(false)
 
   useEffect(() => {
     const fetchTables = async () => {
@@ -34,7 +35,7 @@ const Dashboard = ({ username }) => {
     };
     fetchTables();
     // console.log('setTablessworked', dataTables);
-  }, []);
+  }, [sidebar]);
   // console.log('setTablessworked', dataTables.budget);
   console.log("sidebar: ", sidebar);
   return (
@@ -42,8 +43,8 @@ const Dashboard = ({ username }) => {
       <Navbar username={username} />
       <Overview dataTables={dataTables} setDataTables={setDataTables} />
       <div className="components">
-        <Transactions dataTables={dataTables} setDataTables={setDataTables} />
-        <Budget dataTables={dataTables} setDataTables={setDataTables} />
+        <Transactions  dataTables={dataTables} setDataTables={setDataTables} />
+        <Budget setSidebar={setSidebar} dataTables={dataTables} setDataTables={setDataTables} />
         <Goals dataTables={dataTables} setDataTables={setDataTables} />
       </div>
       <button
@@ -58,6 +59,7 @@ const Dashboard = ({ username }) => {
           setSidebar={setSidebar}
           dataTables={dataTables}
           setDataTables={setDataTables}
+          setRerender={setRerender}
         />
       )}
     </div>

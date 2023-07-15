@@ -23,7 +23,7 @@ transactionController.rangeOfTransactions = async (req, res, next) => {
 }
 
 transactionController.goalTracker = async (req, res, next) => {
-    console.log('-----> goaltracker is running. req.body: ', req.body)
+    // console.log('-----> goaltracker is running. req.body: ', req.body)
     try {
         const query = `SELECT *
         FROM savings_goals
@@ -47,7 +47,7 @@ transactionController.goalTracker = async (req, res, next) => {
 }
 
 transactionController.budgetSetter = async (req, res, next) => {
-    console.log('-----> budget tracker is running. req.body: ', req.body)
+    // console.log('-----> budget tracker is running. req.body: ', req.body)
     try {
         const query = `
         UPDATE budget

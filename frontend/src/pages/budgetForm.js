@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useReducer } from 'react';
 import { AuthContext } from "../authContext.js";
 import CloseIcon from '../images/Icons/close';
 import GroceriesIcon from '../images/Icons/groceries';
@@ -12,17 +12,24 @@ import TransportationIcon from '../images/Icons/transportation';
 import HousingIcon from '../images/Icons/housing';
 
 
-function BudgetForm() {
+function BudgetForm({ setSidebar }) {
 
     const [goalAmount, setGoalAmount] = useState('');
     const [goalCategory, setGoalCategory] = useState('');
     const [value, setValue] = useState();
     const [bold, setBold] = useState();
     const auth = useContext(AuthContext);
+    
+    function useForceUpdate() {
+        const [, forceUpdate] = useReducer(x => x + 1, 0);
+        return forceUpdate;
+      }
 
     const onSubmitHandler = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
         setValue('');
+        setSidebar(false);
+        // useForceUpdate()
         fetch('http://localhost:3000/dashboard/budget', {
             method: 'POST',
             headers: {
@@ -36,12 +43,11 @@ function BudgetForm() {
                 goalCategory: goalCategory
             })
         })
-            .then((response) => response.json())
-            .then((data) => {
-
-            })
+            // .then(() => useForceUpdate())
             .catch(err => console.log(err))
     }
+
+    // useForceUpdate()
 
     const handleChange = (event) => {
         console.log('handleChange value: ', event.target.value)
