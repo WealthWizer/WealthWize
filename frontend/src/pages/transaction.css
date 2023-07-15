@@ -67,7 +67,7 @@ option:hover {
     align-self: stretch;
 }
 
-input[type="date"] {
+.date-range input[type="date"] {
     opacity: 0;
     margin: 16px 0;
     background-color: #FFF;
