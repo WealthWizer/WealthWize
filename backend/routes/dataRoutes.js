@@ -26,4 +26,6 @@ router.post("/savinggoals", transactionController.goalTracker);
 
 router.post("/savegoal", dataController.savingGoals);
 
+router.post("/expense", dataController.newExpense);
+
 module.exports = router;

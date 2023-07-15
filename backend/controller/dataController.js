@@ -127,4 +127,19 @@ dataController.savingGoals = async (req, res, next) => {
     next(err);
   }
 };
+
+dataController.newExpense = async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const expense = req.body;
+    console.log(expense);
+    querystr = `INSERT INTO transactions (user_id, category, amount, date, "vendorName")
+      VALUES(${expense.userID}, '${expense.category}', ${expense.amount}, '${expense.date}', '${expense.vendorName}')`;
+
+    const result = await db.query(querystr);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
 module.exports = dataController;
