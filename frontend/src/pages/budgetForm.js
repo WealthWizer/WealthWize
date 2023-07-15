@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from "../authContext.js";
 import CloseIcon from '../images/Icons/close';
 import GroceriesIcon from '../images/Icons/groceries';
 import DiningIcon from '../images/Icons/dining';
@@ -13,53 +14,98 @@ import HousingIcon from '../images/Icons/housing';
 
 function BudgetForm() {
 
-    const [goalAmount, setGoalAmount] = useState();
+    const [goalAmount, setGoalAmount] = useState('');
+    const [goalCategory, setGoalCategory] = useState('');
+    const [value, setValue] = useState();
+    const [bold, setBold] = useState();
+    const auth = useContext(AuthContext);
 
-    
+    const onSubmitHandler = (event) => {
+        // event.preventDefault();
+        setValue('');
+        fetch('http://localhost:3000/dashboard/budget', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.token}`
+            },
+            body: JSON.stringify({
+                // sending month for range of month - weekStart and weekEnd
+                userID: auth.userID,
+                goalAmount: goalAmount,
+                goalCategory: goalCategory
+            })
+        })
+            .then((response) => response.json())
+            .then((data) => {
 
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleChange = (event) => {
+        console.log('handleChange value: ', event.target.value)
+        setGoalAmount(event.target.value)
+    }
+    const handleClick = (event) => {
+        console.log('handleClick value: ', event.currentTarget.getAttribute('value'))
+        setGoalCategory(event.currentTarget.getAttribute('value'))
+    }
+
+    console.log('goal: ', goalAmount)
+    console.log('goal category: ', goalCategory)
     return (
-        <div className='category-buttons'>
-            <h2>Add your Budget</h2>
-            <form>
-                <input placeholder='Amount' onChange={(e) => setGoalAmount(e.target.value)}></input>
+        <div className='category-budget'>
+            {/* <h2>Add your Budget</h2> */}
+            {/* <form className='budget-form' onSubmit={(e) => { onSubmitHandler(e.target.value) }}> */}
+            <form className='budget-form' onSubmit={onSubmitHandler}>
+                <label for='input'>Add your Budget</label>
+                {/* <input placeholder='Amount' onChange={(e) => setGoalAmount(e.target.value)}></input> */}
+                <input type='text' placeholder='Amount' onChange={handleChange} value={value}></input>
+
+                <div className='category-buttons'>
+                    <div>
+                        <button type='button' value='Groceries' onClick={(event) => handleClick(event)}><GroceriesIcon /></button>
+                        <p>Grocery</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Dining' onClick={(event) => handleClick(event)}><DiningIcon /></button>
+                        <p>Dining</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Entertainment' onClick={(event) => handleClick(event)}><EntertainmentIcon /></button>
+                        <p>Entertainment</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Clothing' onClick={(event) => handleClick(event)}><ClothingIcon /></button>
+                        <p>Clothing</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Subscription' onClick={(event) => handleClick(event)}><SubscriptionIcon /></button>
+                        <p>Subscription</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Utilities' onClick={(event) => handleClick(event)}><UtilitiesIcon /></button>
+                        <p>Utilites</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Medical' onClick={(event) => handleClick(event)}><MediaclIcon /></button>
+                        <p>Medical</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Transportation' onClick={(event) => handleClick(event)}><TransportationIcon /></button>
+                        <p>Transportation</p>
+                    </div>
+                    <div>
+                        <button type='button' value='Housing' onClick={(event) => handleClick(event)}><HousingIcon /></button>
+                        <p>Housing</p>
+                    </div>
+                </div>
+                <button type='submit' className='submit-button'>Submit</button>
             </form>
-            <div>
-                <button><GroceriesIcon /></button>
-                <p>Grocery</p>
-            </div>
-            <div>
-                <button><DiningIcon /></button>
-                <p>Dining</p>
-            </div>
-            <div>
-                <button><EntertainmentIcon /></button>
-                <p>Entertainment</p>
-            </div>
-            <div>
-                <button><ClothingIcon /></button>
-                <p>Clothing</p>
-            </div>
-            <div>
-                <button><SubscriptionIcon /></button>
-                <p>Subscription</p>
-            </div>
-            <div>
-                <button><UtilitiesIcon /></button>
-                <p>Utilites</p>
-            </div>
-            <div>
-                <button><MediaclIcon /></button>
-                <p>Medical</p>
-            </div>
-            <div>
-                <button><TransportationIcon /></button>
-                <p>Transportation</p>
-            </div>
-            <div>
-                <button><HousingIcon /></button>
-                <p>Housing</p>
-            </div>
-        </div>)
+
+        </div>
+    )
 
 }
 

@@ -46,6 +46,28 @@ transactionController.goalTracker = async (req, res, next) => {
     }
 }
 
+transactionController.budgetSetter = async (req, res, next) => {
+    console.log('-----> budget tracker is running. req.body: ', req.body)
+    try {
+        const query = `
+        UPDATE budget
+        SET budget = ${req.body.goalAmount}
+        WHERE user_id = 1 AND category= '${req.body.goalCategory}';`;
+
+        const result = await db.query(query);
+
+        if (!result) {
+            next('no db result')
+        } else {
+            console.log('----> budget setter results: ', result.rows);
+            res.status(200)
+        }
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
 module.exports = transactionController;
 
 
