@@ -40,12 +40,12 @@ const [accounts, setAccounts] = useState({checking:5000, savings:0});
     return(
         <div className='Overview'>
             <p>Total Amount: </p>
-            <h1 className='total'>{total}</h1>
+            <h1 className='total'>${total}</h1>
             <div className= 'accounts'>
             <p>Checking: </p> 
-                <span>{accounts.checking}</span>
+                <span>${accounts.checking}</span>
                 <p>Savings: </p> 
-                <span>{accounts.savings}</span>
+                <span>${accounts.savings}</span>
             </div>
         </div>
     )

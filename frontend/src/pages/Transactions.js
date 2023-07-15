@@ -8,8 +8,8 @@ import { AuthContext } from "../authContext.js";
 const Transactions = ({ dataTables }) => {
     // CREATING CURRENT DATE STARTING 1 MONTH BEFORE
     const d = new Date();
-    const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
-    const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDay())).slice(-2)
+    const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDay()+9)).slice(-2)
+    const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDay()+9)).slice(-2)
 
     // SETTING STATE
     const auth = useContext(AuthContext);
