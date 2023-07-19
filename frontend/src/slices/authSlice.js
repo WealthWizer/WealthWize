@@ -1,38 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  userInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo"))
-    : null,
-  // username:
-  // password:
-  // status: "success",
-  //     token: generateToken(result),
-  //     username: result.rows[0].username,
-  //     userID: result.rows[0].id,
   username: "",
   password: "",
+  token: null,
+  userID: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      state.userInfo = action.payload;
-      localStorage.setItem("userInfo", JSON.stringify(action.payload));
-    },
     logout: (state, action) => {
       state.userInfo = null;
       localStorage.removeItem("userInfo");
     },
-    handlePasswordChange: (state, action) => {
+    changeUsername: (state, action) => {
       state.username = action.payload;
-      userInfo.username = action.payload;
+    },
+    changePassword: (state, action) => {
+      state.password = action.payload;
+    },
+    login: (state, action) => {
+      const { token, username, userID } = action.payload;
+      state.token = token;
+      state.username = username;
+      state.userID = userID;
+      console.log(state.token, state.username, state.userID);
     },
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout, login, changePassword, changeUsername } =
+  authSlice.actions;
 
 export default authSlice.reducer;
