@@ -2,24 +2,46 @@ import React, { useState, useContext } from "react";
 import landingImage from "./../images/DALL·E 2023-07-07 10.27 1.png";
 import "./LoginSignupPage.css";
 import { AuthContext } from "../authContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Counter from "../counter";
 
 function LoginPage() {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleUsernameChange = (event) => {
+    dispatch();
     setUsername(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/dashboard");
+    }
+  }, [navigate, userInfo]);
+
+  // const handleLoginSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await login({ username, password }).unwrap();
+  //     dispatch(setCredentials({ ...res }));
+  //     navigate('/dashboard')
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   const handleLoginSubmit = async () => {
     try {
@@ -30,6 +52,11 @@ function LoginPage() {
           password,
         }
       );
+      //what response object should look like
+      // status: "success",
+      //     token: generateToken(result),
+      //     username: result.rows[0].username,
+      //     userID: result.rows[0].id,
       if (response.data.token) {
         auth.login(
           response.data.token,
@@ -79,7 +106,6 @@ function LoginPage() {
           <button className="login-signup-btn" onClick={handleLoginSubmit}>
             Log In
           </button>
-          <Counter></Counter>
         </div>
       </div>
     </div>
