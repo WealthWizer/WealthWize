@@ -4,6 +4,7 @@ import "./LoginSignupPage.css";
 import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Counter from "../counter";
 
 function LoginPage() {
   const auth = useContext(AuthContext);
@@ -78,6 +79,7 @@ function LoginPage() {
           <button className="login-signup-btn" onClick={handleLoginSubmit}>
             Log In
           </button>
+          <Counter></Counter>
         </div>
       </div>
     </div>
