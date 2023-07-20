@@ -10,7 +10,7 @@ import axios from "axios";
 //show before change to redux and after change to Redux
 // import { setCredentials } from "../slices/authSlice";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+
 
 function LoginPage() {
   // const auth = useContext(AuthContext);
@@ -72,8 +72,8 @@ function LoginPage() {
         //   response.data.username,
         //   response.data.userID
         // );
-        dispatch(() => login(response));
-        navigate("/");
+        dispatch(() => login(response.data));
+        navigate("/dashboard");
       }
     } catch (err) {
       console.log(err);
