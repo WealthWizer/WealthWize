@@ -62,8 +62,10 @@ const Sidebar = ({ setSidebar, setRerender }) => {
             Goal
           </button>
         </div>
-        {expenseSelection && <ExpenseForm setSidebar={setSidebar} setRerender={setRerender}/>}
-        {budgetSelection && <BudgetForm setSidebar={setSidebar}/>}
+        {expenseSelection && (
+          <ExpenseForm setSidebar={setSidebar} setRerender={setRerender} />
+        )}
+        {budgetSelection && <BudgetForm setSidebar={setSidebar} />}
         {goalSelection && <GoalForm setSidebar={setSidebar} />}
       </div>
     </div>

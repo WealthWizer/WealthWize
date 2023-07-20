@@ -1,24 +1,52 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import landingImage from "./../images/DALL·E 2023-07-07 10.27 1.png";
 import "./LoginSignupPage.css";
 import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LoginPage() {
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate();
+//show before change to redux and after change to Redux
+// import { setCredentials } from "../slices/authSlice";
+import { changeUsername, changePassword, login } from "../reducers/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function LoginPage() {
+  // const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const { username, password } = useSelector((state) => state.auth);
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+    // setUsername(event.target.value);
+    dispatch(changeUsername(event.target.value));
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    // setPassword(event.target.value);
+    dispatch(changePassword(event.target.value));
   };
+
+  // const userInfo = useSelector((state) => state.auth.userInfo);
+
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate("/dashboard");
+  //   }
+  // }, [navigate, userInfo]);
+
+  // const handleLoginSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await login({ username, password }).unwrap();
+  //     dispatch(setCredentials({ ...res }));
+  //     navigate('/dashboard')
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   const handleLoginSubmit = async () => {
     try {
@@ -29,13 +57,21 @@ function LoginPage() {
           password,
         }
       );
+      //what response object should look like
+      // status: "success",
+      //     token: generateToken(result),
+      //     username: result.rows[0].username,
+      //     userID: result.rows[0].id,
+
       if (response.data.token) {
-        auth.login(
-          response.data.token,
-          response.data.username,
-          response.data.userID
-        );
-        navigate("/dashboard");
+        // if (response.token) {
+        // auth.login(
+        //   response.data.token,
+        //   response.data.username,
+        //   response.data.userID
+        // );
+        dispatch(() => login(response));
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
