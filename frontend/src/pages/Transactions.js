@@ -8,8 +8,8 @@ import { AuthContext } from "../authContext.js";
 const Transactions = ({ dataTables }) => {
     // CREATING CURRENT DATE STARTING 1 MONTH BEFORE
     const d = new Date();
-    const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDay()+9)).slice(-2)
-    const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDay()+9)).slice(-2)
+    const dStringStart = d.getFullYear() + '-' + ('0' + (d.getMonth())).slice(-2) + '-' + ('0' + (d.getDate())).slice(-2)
+    const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDate())).slice(-2)
 
     // SETTING STATE
     const auth = useContext(AuthContext);
@@ -113,23 +113,23 @@ const Transactions = ({ dataTables }) => {
             </div>
             {filterTransaction &&
                 <div className='date-range'>
-                    <p>{dateStart} -</p>
+                    <p>{dateStart} - </p>
                     <p>{dateEnd}</p>
                     <input id='week-start' type='date' value={dateStart} onChange={(e) => { handleStart(e.target.value) }}></input>
                     <input id='week-end' type='date' value={dateEnd} onChange={(e) => { handleEnd(e.target.value) }}></input>
                 </div>
             }
             {filterTransaction && transactions.map((transaction) => {
-                // console.log(transaction)
+                console.log(transaction)
                 return (
                     <>
                         <div className='single-transaction'>
                             <div key={transaction.id} className='transaction-firstline'>
                                 {/* <p>{transaction.item}</p> */}
-                                <p>{transaction.vendorName}</p>
+                                <p>{transaction.vendor_name}</p>
                                 <p id='transaction-category'>{transaction.category}</p>
                             </div>
-                            <p >{transaction.amount}</p>
+                            <p>${transaction.amount}</p>
                         </div>
                     </>
                 )

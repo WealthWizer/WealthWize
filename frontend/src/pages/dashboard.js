@@ -22,7 +22,7 @@ const Dashboard = ({ username }) => {
     const fetchTables = async () => {
       try {
         // console.log("hello from useEffect");
-        const response = await fetch("http://localhost:3000/dashboard", {
+        const response = await fetch(`http://localhost:3000/dashboard/${auth.userID}`, {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         const jsonData = await response.json();

@@ -10,6 +10,8 @@ const Goals = () => {
   const [dropDown, setDropDown] = useState();
   const [reachedGoal, setReachGoal] = useState(false);
 
+  console.log(auth);
+
   useEffect(() => {
     fetch("http://localhost:3000/dashboard/savinggoals", {
       method: "POST",
@@ -18,8 +20,7 @@ const Goals = () => {
         Authorization: `Bearer ${auth.token}`,
       },
       body: JSON.stringify({
-        // userID: auth.userID
-        userID: 1,
+        userID: auth.userID
       }),
     })
       .then((response) => response.json())
@@ -52,7 +53,7 @@ const Goals = () => {
   };
 
   // console.log('dropDown: ', dropDown)
-  // console.log('goals: ', goals)
+  console.log('goals: ', goals)
 
   return (
     <div className="Goals">

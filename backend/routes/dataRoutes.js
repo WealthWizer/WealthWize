@@ -11,7 +11,7 @@ const router = express.Router();
 // ROUTES
 
 router.get(
-  "/",
+  "/:userID",
   // authController.protectRoute,
   dataController.savings,
   dataController.budget,

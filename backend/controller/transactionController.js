@@ -3,11 +3,11 @@ const db = require("../db/sqlmodel");
 const transactionController = {};
 
 transactionController.rangeOfTransactions = async (req, res, next) => {
-    // console.log('-----> rangeOfTransction is running. req.body: ', req.body)
+    console.log('-----> rangeOfTransction is running. req.body: ', req.body)
     try {
-        // const query = `SELECT * FROM transactions WHERE user_id=${req.body.userID} AND date BETWEEN '${req.body.dateStart}' AND '${req.body.dateEnd}' ORDER BY
-        const query = `SELECT * FROM transactions WHERE user_id=1 AND date BETWEEN '${req.body.dateStart}' AND '${req.body.dateEnd}' ORDER BY
-        date desc;`;
+        const query = `SELECT * FROM transactions WHERE user_id=${req.body.userID} AND date BETWEEN '${req.body.dateStart}' AND '${req.body.dateEnd}' ORDER BY date desc;`;
+        // const query = `SELECT * FROM transactions WHERE user_id=1 AND date BETWEEN '${req.body.dateStart}' AND '${req.body.dateEnd}' ORDER BY
+        // 
         const result = await db.query(query);
 
         if (!result) {

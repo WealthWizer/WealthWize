@@ -17,20 +17,31 @@ exports.login = async (req, res, next) => {
     const { username, password } = req.body;
     const queryStr = `SELECT * FROM users WHERE username = '${username}';`;
     const result = await db.query(queryStr);
-    console.log(result.rows[0]);
-    // await bcrypt.compare(password, result.rows[0].password)
-    if (password === result.rows[0].password) {
+    // console.log(result.rows[0]);
+    const authenticated = await bcrypt.compare(password, result.rows[0].password);
+    console.log(authenticated);
+    // if (password === result.rows[0].password) {
+    //   res.status(200).json({
+    //     status: "success",
+    //     token: generateToken(result),
+    //     username: result.rows[0].username,
+    //     userID: result.rows[0].id,
+    //   });
+    // } else {
+    //   next("username or password is incorrect");
+    // }
+    if (authenticated) {
       res.status(200).json({
-        status: "success",
-        token: generateToken(result),
-        username: result.rows[0].username,
-        userID: result.rows[0].id,
-      });
-    } else {
-      next("username or password is incorrect");
-    }
-  } catch (err) {
-    next(err);
+          status: "success",
+          token: generateToken(result),
+          username: result.rows[0].username,
+          userID: result.rows[0].id,
+        });
+      } else {
+        next("username or password is incorrect")
+      }
+    } catch (err) {
+      next(err);
   }
 };
 
