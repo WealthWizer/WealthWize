@@ -3,11 +3,17 @@ import landingImage from "./../images/DALL·E 2023-07-07 10.27 1.png";
 import "./LoginSignupPage.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../authContext";
+// import { AuthContext } from "../authContext";
+
+//migrate to redux
+import { login } from "../reducers/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Signup = () => {
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await axios.post(
@@ -19,11 +25,12 @@ const Signup = () => {
       }
     );
     if (response.data.token) {
-      auth.login(
-        response.data.token,
-        response.data.username,
-        response.data.userID
-      );
+      // auth.login(
+      //   response.data.token,
+      //   response.data.username,
+      //   response.data.userID
+      // );
+      dispatch(() => login(response.data));
       navigate("/dashboard");
     }
   };

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import landingImage from "./../images/DALL·E 2023-07-07 10.27 1.png";
 import "./LoginSignupPage.css";
-import { AuthContext } from "../authContext";
+// import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -70,8 +70,8 @@ function LoginPage() {
         //   response.data.username,
         //   response.data.userID
         // );
-        dispatch(() => login(response));
-        navigate("/");
+        dispatch(() => login(response.data));
+        navigate("/dashboard");
       }
     } catch (err) {
       console.log(err);
