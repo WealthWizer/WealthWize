@@ -4,7 +4,8 @@ import "./LoginSignupPage.css";
 // import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { useSelector } from  "react-redux";
 //show before change to redux and after change to Redux
 // import { setCredentials } from "../slices/authSlice";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
