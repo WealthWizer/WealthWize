@@ -79,7 +79,12 @@ function App() {
       <AuthContext.Provider value={{ token, login, logout, userID, username }}>
         {/* <BrowserRouter> */}
         <Routes>
-          {token ? (
+          <Route
+                path="/dashboard"
+                element={<Dashboard username={username} />} />
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/signup" element={<Signup />} />
+          {/* {token ? (
             <>
               <Route
                 path="/dashboard"
@@ -91,7 +96,7 @@ function App() {
               <Route path="/" element={<LoginPage />} />
               <Route path="/signup" element={<Signup />} />
             </>
-          )}
+          )} */}
         </Routes>
         {/* </BrowserRouter> */}
       </AuthContext.Provider>

@@ -6,8 +6,7 @@ transactionController.rangeOfTransactions = async (req, res, next) => {
     console.log('-----> rangeOfTransction is running. req.body: ', req.body)
     try {
         const query = `SELECT * FROM transactions WHERE user_id=${req.body.userID} AND date BETWEEN '${req.body.dateStart}' AND '${req.body.dateEnd}' ORDER BY date desc;`;
-        // const query = `SELECT * FROM transactions WHERE user_id=1 AND date BETWEEN '${req.body.dateStart}' AND '${req.body.dateEnd}' ORDER BY
-        // 
+
         const result = await db.query(query);
 
         if (!result) {
@@ -28,9 +27,8 @@ transactionController.goalTracker = async (req, res, next) => {
         const query = `SELECT *
         FROM savings_goals
         LEFT JOIN savings ON savings_goals.user_id = savings.user_id
-        AND savings_goals.category = savings.category 
-        WHERE savings_goals.user_id = '1';`;
-        // WHERE savings_goals.user_id = '${req.body.userID}';`;
+        AND savings_goals.category = savings.category
+        WHERE savings_goals.user_id = ${req.body.userID}`;
 
         const result = await db.query(query);
 

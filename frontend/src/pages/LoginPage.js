@@ -63,6 +63,8 @@ function LoginPage() {
       //     username: result.rows[0].username,
       //     userID: result.rows[0].id,
 
+      console.log(response);
+
       if (response.data.token) {
         // if (response.token) {
         // auth.login(
@@ -70,8 +72,8 @@ function LoginPage() {
         //   response.data.username,
         //   response.data.userID
         // );
-        dispatch(() => login(response));
-        navigate("/");
+        dispatch(() => login(response.data));
+        navigate("/dashboard");
       }
     } catch (err) {
       console.log(err);
