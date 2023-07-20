@@ -17,9 +17,14 @@ exports.login = async (req, res, next) => {
     const { username, password } = req.body;
     const queryStr = `SELECT * FROM users WHERE username = '${username}';`;
     const result = await db.query(queryStr);
-    console.log(result.rows[0]);
-    // await bcrypt.compare(password, result.rows[0].password)
-    if (password === result.rows[0].password) {
+    // console.log(result.rows[0], "this is the results");
+    const authenticated = await bcrypt.compare(
+      password,
+      result.rows[0].password
+    );
+    // console.log(authenticated);
+    // if (authenticated === result.rows[0].password) {
+    if (authenticated) {
       res.status(200).json({
         status: "success",
         token: generateToken(result),
