@@ -7,7 +7,7 @@ import axios from "axios";
 
 //show before change to redux and after change to Redux
 // import { setCredentials } from "../slices/authSlice";
-import { changeUsername, changePassword, login } from "../slices/authSlice";
+import { changeUsername, changePassword, login } from "../reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function LoginPage() {
