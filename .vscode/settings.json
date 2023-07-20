@@ -1,6 +1,3 @@
 {
-  "git.ignoreLimitWarning": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "git.ignoreLimitWarning": true
 }
