@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar.js";
 import Transactions from "./Transactions.js";
 import Overview from "./Overview.js";
 import "./dashboard.css";
-import { AuthContext } from "../authContext";
+import { AuthContext } from "../authContext.js";
 import PlusIcon from "../images/Icons/+.js";
 
 const Dashboard = ({ username }) => {
@@ -16,7 +16,7 @@ const Dashboard = ({ username }) => {
   //declare states
   const [dataTables, setDataTables] = useState({});
   const [sidebar, setSidebar] = useState(false);
-  const [rerender, setRerender] = useState(false)
+  const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
     const fetchTables = async () => {
@@ -43,8 +43,12 @@ const Dashboard = ({ username }) => {
       <Navbar username={username} />
       <Overview dataTables={dataTables} setDataTables={setDataTables} />
       <div className="components">
-        <Transactions  dataTables={dataTables} setDataTables={setDataTables} />
-        <Budget setSidebar={setSidebar} dataTables={dataTables} setDataTables={setDataTables} />
+        <Transactions dataTables={dataTables} setDataTables={setDataTables} />
+        <Budget
+          setSidebar={setSidebar}
+          dataTables={dataTables}
+          setDataTables={setDataTables}
+        />
         <Goals dataTables={dataTables} setDataTables={setDataTables} />
       </div>
       <button

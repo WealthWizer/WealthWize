@@ -3,7 +3,7 @@ const pg = require("pg");
 //var pg = require('pg').native
 
 const conString =
-  "postgres://lnsnrogt:aoqZmzAue4xtBVs43hGGOHOhUVQYr1n5@hansken.db.elephantsql.com/lnsnrogt"; //Can be found in the Details page
+  "postgres://vkczbwoc:3E4s5c0rOziUUEmxkG5AHYoAHsEt3ddJ@stampy.db.elephantsql.com/vkczbwoc"; //Can be found in the Details page
 var db = new pg.Client(conString);
 db.connect(function (err) {
   if (err) {
