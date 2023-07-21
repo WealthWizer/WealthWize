@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 //show before change to redux and after change to Redux
-// import { setCredentials } from "../slices/authSlice";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
 
 
@@ -17,7 +16,9 @@ function LoginPage() {
 
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const { username, password } = useSelector((state) => state.auth);
+  const { username, password, token, expTime } = useSelector(
+    (state) => state.auth
+  );
 
   const handleUsernameChange = (event) => {
     // setUsername(event.target.value);
@@ -71,6 +72,17 @@ function LoginPage() {
         //   response.data.userID
         // );
         dispatch(() => login(response.data));
+
+        localStorage.setItem(
+          "data",
+          JSON.stringify({
+            token: token,
+            username: user,
+            userID: userID,
+            expireTime: autoLogoutTime.toISOString(),
+          })
+        );
+        console.log(localStorage, "fired");
         navigate("/dashboard");
       }
     } catch (err) {
