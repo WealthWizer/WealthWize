@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 //show before change to redux and after change to Redux
+import { useDispatch, useSelector } from "react-redux";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
-
 
 function LoginPage() {
   // const auth = useContext(AuthContext);
@@ -16,7 +16,7 @@ function LoginPage() {
 
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const { username, password, token, expTime } = useSelector(
+  const { username, password, userID, token, expTime } = useSelector(
     (state) => state.auth
   );
 
@@ -71,18 +71,33 @@ function LoginPage() {
         //   response.data.username,
         //   response.data.userID
         // );
-        dispatch(() => login(response.data));
+        const { token, username, userID } = response.data;
 
-        localStorage.setItem(
-          "data",
-          JSON.stringify({
-            token: token,
-            username: user,
-            userID: userID,
-            expireTime: autoLogoutTime.toISOString(),
-          })
-        );
-        console.log(localStorage, "fired");
+        // AUTO LOGOUT TIME SET (YOU CAN PLAY AROUND WITH THAT TIME TO AUTO LOGOUT)
+        const hourInMili = 1000 * 60 * 60;
+        // const tenSecInMili = 10000;
+
+        // SET TO EITHER EXP TIME FROM PREV OR CURRENT TIME + 1 Hour
+        const autoLogoutTime =
+          expTime || new Date(new Date().getTime() + hourInMili);
+
+        //desctructure data into an object
+        const data = { token: token, username: username, userID: userID };
+
+        //dispatch action to authSlice
+        dispatch(() => login(data));
+
+        // //writes data to local storage
+        // localStorage.setItem(
+        //   "data",
+        //   JSON.stringify({
+        //     token: token,
+        //     username: username,
+        //     userID: userID,
+        //     expireTime: autoLogoutTime.toISOString(),
+        //   })
+        // );
+        // console.log(localStorage, "fired");
         navigate("/dashboard");
       }
     } catch (err) {
