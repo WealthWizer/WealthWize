@@ -59,7 +59,6 @@ function App() {
 
   // AUTO LOGOUT
   useEffect(() => {
-    console.log(token, expTime, "look here");
     let timer;
     if (token && expTime) {
       const leftLoggedInTime = expTime.getTime() - new Date().getTime();
@@ -92,16 +91,16 @@ function App() {
         })
       );
 
-      localStorage.setItem(
-        "data",
-        JSON.stringify({
-          token: token,
-          username: user,
-          userID: userID,
-          expireTime: autoLogoutTime.toISOString(),
-        })
-      );
-      console.log(localStorage, "localStorage");
+      // localStorage.setItem(
+      //   "data",
+      //   JSON.stringify({
+      //     token: token,
+      //     username: username,
+      //     userID: userID,
+      //     expireTime: autoLogoutTime.toISOString(),
+      //   })
+      // );
+      // console.log(localStorage, "localStorage");
       // console.log(window.location.pathname);
       if (window.location.pathname === "/") navigate("/dashboard");
     }
