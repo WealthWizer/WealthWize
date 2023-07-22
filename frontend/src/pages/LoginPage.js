@@ -16,9 +16,8 @@ function LoginPage() {
 
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const { username, password, userID, token, expTime } = useSelector(
-    (state) => state.auth
-  );
+  const { username, password, userID, token, expTime, isLoggedIn } =
+    useSelector((state) => state.auth);
 
   const handleUsernameChange = (event) => {
     // setUsername(event.target.value);
@@ -30,79 +29,14 @@ function LoginPage() {
     dispatch(changePassword(event.target.value));
   };
 
-  // const userInfo = useSelector((state) => state.auth.userInfo);
+  //if the handleLoginSubmit is successful, then redirect to next page
+  useEffect(() => {
+    if (isLoggedIn) navigate("/dashboard");
+  });
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate("/dashboard");
-  //   }
-  // }, [navigate, userInfo]);
-
-  // const handleLoginSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await login({ username, password }).unwrap();
-  //     dispatch(setCredentials({ ...res }));
-  //     navigate('/dashboard')
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
+  //on login button click, this will fire to the auth slice
   const handleLoginSubmit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/login",
-        {
-          username,
-          password,
-        }
-      );
-      //what response object should look like
-      // status: "success",
-      //     token: generateToken(result),
-      //     username: result.rows[0].username,
-      //     userID: result.rows[0].id,
-
-      if (response.data.token) {
-        // if (response.token) {
-        // auth.login(
-        //   response.data.token,
-        //   response.data.username,
-        //   response.data.userID
-        // );
-        const { token, username, userID } = response.data;
-
-        // AUTO LOGOUT TIME SET (YOU CAN PLAY AROUND WITH THAT TIME TO AUTO LOGOUT)
-        const hourInMili = 1000 * 60 * 60;
-        // const tenSecInMili = 10000;
-
-        // SET TO EITHER EXP TIME FROM PREV OR CURRENT TIME + 1 Hour
-        const autoLogoutTime =
-          expTime || new Date(new Date().getTime() + hourInMili);
-
-        //desctructure data into an object
-        const data = { token: token, username: username, userID: userID };
-
-        //dispatch action to authSlice
-        dispatch(() => login(data));
-
-        // //writes data to local storage
-        // localStorage.setItem(
-        //   "data",
-        //   JSON.stringify({
-        //     token: token,
-        //     username: username,
-        //     userID: userID,
-        //     expireTime: autoLogoutTime.toISOString(),
-        //   })
-        // );
-        // console.log(localStorage, "fired");
-        navigate("/dashboard");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    dispatch(login());
   };
 
   return (

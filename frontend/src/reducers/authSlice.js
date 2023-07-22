@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 //how to let asyncthunk have access to the state
 //pass it in
@@ -7,13 +8,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
     const currentState = thunkAPI.getState();
+    const { username, password, expTime } = currentState.auth;
 
-    
-    const response = await axios.post(
-      "http://localhost:3000/api/users/login",
-      {currentState.username,
-      currentState.password}
-    );
+    const response = await axios.post("http://localhost:3000/api/users/login", {
+      username,
+      password,
+    });
 
     if (response.data.token) {
       const { token, username, userID } = response.data;
@@ -24,10 +24,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
 
       // SET TO EITHER EXP TIME FROM PREV OR CURRENT TIME + 1 Hour
       const autoLogoutTime =
-        initialState.expTime || new Date(new Date().getTime() + hourInMili);
-
-      //desctructure data into an object
-      const data = { token: token, username: username, userID: userID };
+        expTime || new Date(new Date().getTime() + hourInMili);
 
       //writes data to local storage
       localStorage.setItem(
@@ -40,11 +37,14 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
         })
       );
 
-      return response.data;
-      // console.log(localStorage, "fired");
-      navigate("/dashboard");
+      const result = Object.assign({}, response.data, {
+        expTime: autoLogoutTime,
+      });
+      console.log(result);
+      return result;
     }
   } catch (err) {
+    //rewrite to make it more lexical - Jay
     console.log(err);
   }
 });
@@ -78,38 +78,6 @@ const authSlice = createSlice({
     changePassword: (state, action) => {
       state.password = action.payload;
     },
-    // login: (state, action) => {
-    //   console.log("login reducer is fired");
-    //   const { token, username, userID, expTime } = action.payload;
-    //   state.token = token;
-    //   state.username = username;
-    //   state.userID = userID;
-
-    //   if (expTime) state.expTime = expTime;
-
-    //   // idea: I should create a separate function containing these elements, and then import that into the necessary files
-    //   // this is the remaining login functionality, need to determine where to implement it
-
-    //   // AUTO LOGOUT TIME SET (YOU CAN PLAY AROUND WITH THAT TIME TO AUTO LOGOUT)
-    //   const hourInMili = 1000 * 60 * 60;
-    //   // const tenSecInMili = 10000;
-
-    //   // SET TO EITHER EXP TIME FROM PREV OR CURRENT TIME + 1 Hour
-    //   const autoLogoutTime =
-    //     expTime || new Date(new Date().getTime() + hourInMili);
-
-    //   state.expTime = autoLogoutTime;
-    //   //writes data to local storage
-    //   localStorage.setItem(
-    //     "data",
-    //     JSON.stringify({
-    //       token: token,
-    //       username: username,
-    //       userID: userID,
-    //       expireTime: autoLogoutTime.toISOString(),
-    //     })
-    //   );
-    // },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
@@ -118,12 +86,13 @@ const authSlice = createSlice({
       state.username = username;
       state.userID = userID;
       if (expTime) state.expTime = expTime;
+
+      //once isLoggedIn is set to true, then the useEffect hook in the LoginPage will redirect to authSlice
       state.isLoggedIn = true;
     });
   },
 });
 
-export const { logout, /*login,*/ changePassword, changeUsername } =
-  authSlice.actions;
+export const { logout, changePassword, changeUsername } = authSlice.actions;
 
 export default authSlice.reducer;
