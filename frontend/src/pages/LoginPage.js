@@ -78,7 +78,7 @@ function LoginPage() {
           "data",
           JSON.stringify({
             token: token,
-            username: user,
+            username: username,
             userID: userID,
             expireTime: autoLogoutTime.toISOString(),
           })
