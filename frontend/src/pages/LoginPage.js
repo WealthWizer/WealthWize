@@ -4,8 +4,7 @@ import "./LoginSignupPage.css";
 // import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useSelector } from  "react-redux";
+
 //show before change to redux and after change to Redux
 import { useDispatch, useSelector } from "react-redux";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
@@ -37,44 +36,7 @@ function LoginPage() {
 
   //on login button click, this will fire to the auth slice
   const handleLoginSubmit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/login",
-        {
-          username,
-          password,
-        }
-      );
-      //what response object should look like
-      // status: "success",
-      //     token: generateToken(result),
-      //     username: result.rows[0].username,
-      //     userID: result.rows[0].id,
-
-      if (response.data.token) {
-        // if (response.token) {
-        // auth.login(
-        //   response.data.token,
-        //   response.data.username,
-        //   response.data.userID
-        // );
-        dispatch(() => login(response.data));
-
-        localStorage.setItem(
-          "data",
-          JSON.stringify({
-            token: token,
-            username: user,
-            userID: userID,
-            expireTime: autoLogoutTime.toISOString(),
-          })
-        );
-        console.log(localStorage, "fired");
-        navigate("/dashboard");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    dispatch(login());
   };
 
   return (
