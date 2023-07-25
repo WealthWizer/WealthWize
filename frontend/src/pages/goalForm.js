@@ -2,14 +2,21 @@ import React, { useState, useContext } from "react";
 import "./goalForm.css";
 import { AuthContext } from "../authContext";
 import axios from "axios";
+import { useDispatch } from 'react-redux'
+// import { createGoal } from "../reducers/authSlice";
 
 function GoalForm({ setSidebar }) {
   const auth = useContext(AuthContext);
   const [goal, setGoal] = useState("");
   const [amount, setAmount] = useState("");
 
+  const dispatch = useDispatch()
+
   const handleSubmit = async (event) => {
     event.preventDefault;
+
+//dispatch(createGoal(goal info here))
+
     try {
       console.log("this is the token", auth.token);
       console.log(goal, amount);
