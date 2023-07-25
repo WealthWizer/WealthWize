@@ -45,12 +45,13 @@ transactionController.goalTracker = async (req, res, next) => {
 }
 
 transactionController.budgetSetter = async (req, res, next) => {
-    // console.log('-----> budget tracker is running. req.body: ', req.body)
+    console.log('-----> budget tracker is running. req.body: ', req.body)
     try {
-        const query = `
-        UPDATE budget
-        SET budget = ${req.body.goalAmount}
-        WHERE user_id = 1 AND category= '${req.body.goalCategory}';`;
+        // const query = `
+        // UPDATE budget
+        // SET budget = ${req.body.goalAmount}
+        // WHERE user_id = 1 AND category= '${req.body.goalCategory}';`;
+        const query = `INSERT INTO budget (user_id, budget, category) VALUES (${req.body.userID}, ${req.body.goalAmount}, '${req.body.goalCategory}')`;
 
         const result = await db.query(query);
 

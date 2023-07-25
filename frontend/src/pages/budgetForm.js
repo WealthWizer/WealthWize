@@ -18,7 +18,13 @@ function BudgetForm({ setSidebar }) {
     const [goalCategory, setGoalCategory] = useState('');
     const [value, setValue] = useState();
     const [bold, setBold] = useState();
-    const auth = useContext(AuthContext);
+    // const auth = useContext(AuthContext);
+    // hardcoded for testing
+    const auth = {
+        userID: 2,
+        username: 'shiyuliu',
+        token: 'test'
+    }
     
     function useForceUpdate() {
         const [, forceUpdate] = useReducer(x => x + 1, 0);

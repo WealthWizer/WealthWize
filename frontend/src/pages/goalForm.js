@@ -4,7 +4,13 @@ import { AuthContext } from "../authContext";
 import axios from "axios";
 
 function GoalForm({ setSidebar }) {
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
+  // hardcoded for testing
+  const auth = {
+    userID: 2,
+    username: 'shiyuliu',
+    token: 'test'
+  }
   const [goal, setGoal] = useState("");
   const [amount, setAmount] = useState("");
 

@@ -7,7 +7,13 @@ import "../index.css";
 
 const Navbar = ({ username }) => {
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
+  // const auth = useContext(AuthContext);
+  // hardcoded for testing
+  const auth = {
+    userID: 2,
+    username: 'shiyuliu',
+    token: 'test'
+  }
   const handleLogout = () => {
     auth.logout();
     navigate("/");

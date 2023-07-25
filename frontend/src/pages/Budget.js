@@ -17,11 +17,13 @@ const Budget = ({ dataTables }) => {
         if (budgetTable && budgetTable.length > 0) {
           let budgetSum = 0;
           budgetTable.forEach((row) => {
-            // console.log(row);
             budgetSum += row.budget;
+            console.log('budgetSum', budgetSum);
           });
           setTotalBudget(budgetSum);
+          console.log('totalBudget', totalBudget);
         } else {
+          console.log('setting budget to 0')
           setTotalBudget(0); // Set a default value if the budget table is empty
         }
       } catch (err) {

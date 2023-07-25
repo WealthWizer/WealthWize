@@ -12,7 +12,13 @@ const Transactions = ({ dataTables }) => {
     const dStringEnd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + (d.getDate())).slice(-2)
 
     // SETTING STATE
-    const auth = useContext(AuthContext);
+    // const auth = useContext(AuthContext);
+    // hardcoded for testing
+    const auth = {
+        userID: 2,
+        username: 'shiyuliu',
+        token: 'test'
+    }
     const [transactions, setTransactions] = useState([]);
     const [dateStart, setDateStart] = useState(dStringStart);
     const [dateEnd, setDateEnd] = useState(dStringEnd);
@@ -48,6 +54,7 @@ const Transactions = ({ dataTables }) => {
         // console.log('transactions: ', transactions)
         const categoryObj = [];
         let total = 0;
+        console.log('transactions inside category: ', typeof transactions)
 
         transactions.forEach((transaction) => {
             categoryObj[transaction.category] = (categoryObj[transaction.category] || 0) + transaction.amount;
@@ -82,6 +89,7 @@ const Transactions = ({ dataTables }) => {
             .then((data) => {
                 // receiving object  with transaction.item, transaction.amount, transaction.category, user.id
                 setTransactions(data)
+                console.log('transactions: ', typeof transactions)
                 if (filterCategory) categoryMaker();
             })
             .catch(err => console.log(err))
@@ -124,6 +132,7 @@ const Transactions = ({ dataTables }) => {
                 return (
                     <>
                         <div className='single-transaction'>
+                            <button key={`btn_${transaction.id}`}>edit</button>
                             <div key={transaction.id} className='transaction-firstline'>
                                 {/* <p>{transaction.item}</p> */}
                                 <p>{transaction.vendor_name}</p>

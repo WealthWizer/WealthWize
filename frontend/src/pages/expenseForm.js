@@ -12,7 +12,13 @@ import HousingIcon from '../images/Icons/housing';
 import { AuthContext } from "../authContext.js";
 
 function ExpenseForm({ setSidebar, setRerender }) {
-    const auth = useContext(AuthContext);
+    // const auth = useContext(AuthContext);
+    // hardcoded for testing
+    const auth = {
+        userID: 2,
+        username: 'shiyuliu',
+        token: 'test'
+    }
 
     //this is the userID;
     const userID = auth.userID;
