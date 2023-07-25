@@ -11,7 +11,7 @@ import PlusIcon from "../images/Icons/+.js";
 
 const Dashboard = ({ username }) => {
   const auth = useContext(AuthContext);
-  console.log(" here is the token", auth);
+  // console.log(" here is the token", auth);
 
   //declare states
   const [dataTables, setDataTables] = useState({});

@@ -1,32 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-//how to let asyncthunk have access to the state
-//pass it in
-//thunkAPI get state hook
+const readLS = () => {};
 
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
     const currentState = thunkAPI.getState();
-    const { username, password, expTime } = currentState.auth;
+    const { user, pass } = currentState.auth;
 
     const response = await axios.post("http://localhost:3000/api/users/login", {
-      username,
-      password,
+      user,
+      pass,
     });
 
     if (response.data.token) {
-      const { token, username, userID } = response.data;
+      const { username, token, userID } = response.data;
 
       // AUTO LOGOUT TIME SET (YOU CAN PLAY AROUND WITH THAT TIME TO AUTO LOGOUT)
       const hourInMili = 1000 * 60 * 60;
       // const tenSecInMili = 10000;
 
       // SET TO EITHER EXP TIME FROM PREV OR CURRENT TIME + 1 Hour
-      const autoLogoutTime =
-        expTime || new Date(new Date().getTime() + hourInMili);
+      const autoLogoutTime = new Date(new Date().getTime() + hourInMili);
 
-      //writes data to local storage
+      //writes data to local storage for authentication purposes
       localStorage.setItem(
         "data",
         JSON.stringify({
@@ -37,41 +34,63 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
         })
       );
 
-      const result = Object.assign({}, response.data, {
-        expTime: autoLogoutTime,
-      });
-      console.log(result);
-      return result;
+      //return an object combining response data + autoLogoutTime
+      return response.data;
     }
   } catch (err) {
-    //rewrite to make it more lexical - Jay
-    console.log(err);
+    console.log("error in authSlice login:", err);
   }
 });
+
+export const checkSession = createAsyncThunk(
+  "auth/checkSession",
+  async (test, thunkAPI) => {
+    try {
+      //read local storage
+      const ls = JSON.parse(localStorage.getItem("data"));
+
+      console.log("here");
+      //if local storage doesn't have a session, return false for sessionValid to
+      if (!ls) return false;
+
+      const { token, expireTime } = ls;
+
+      const currentTime = new Date();
+
+      //is session hasn't timed out, then set sessionValid to true, otherwise set it false
+      if (token && expireTime > currentTime) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.log("error in checkSession: ", err);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (user, thunkAPI) => {
+    try {
+      localStorage.removeItem("data");
+    } catch (err) {
+      console.log("error in authSlice logout:", err);
+    }
+  }
+);
 
 const initialState = {
   username: "",
   password: "",
-  token: false,
-  userID: "",
-  expTime: null,
-  isLoggedIn: false,
+  sessionValid: false,
+  loginFail: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state, action) => {
-      state.userInfo = null;
-      state.expTime = null;
-      state.token = false;
-      state.username = "";
-      state.userID = "";
-
-      //remove data from local storage
-      localStorage.removeItem("data");
-    },
     changeUsername: (state, action) => {
       state.username = action.payload;
     },
@@ -80,19 +99,27 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, action) => {
-      const { token, username, userID, expTime } = action.payload;
-      state.token = token;
-      state.username = username;
-      state.userID = userID;
-      if (expTime) state.expTime = expTime;
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        const { token, username, userID } = action.payload;
+        state.token = token;
+        state.username = username;
+        state.userID = userID;
 
-      //once isLoggedIn is set to true, then the useEffect hook in the LoginPage will redirect to authSlice
-      state.isLoggedIn = true;
-    });
+        //once sessionValid is set to true, then the useEffect hook in the LoginPage will redirect to authSlice
+        state.sessionValid = true;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.username = "";
+        state.sessionValid = false;
+      })
+      .addCase(checkSession.fulfilled, (state, action) => {
+        const sessionStatus = action.payload;
+        state.sessionValid = sessionStatus;
+      });
   },
 });
 
-export const { logout, changePassword, changeUsername } = authSlice.actions;
+export const { changePassword, changeUsername } = authSlice.actions;
 
 export default authSlice.reducer;

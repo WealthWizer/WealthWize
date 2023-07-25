@@ -7,32 +7,31 @@ import axios from "axios";
 
 //show before change to redux and after change to Redux
 import { useDispatch, useSelector } from "react-redux";
-import { changeUsername, changePassword, login } from "../reducers/authSlice";
+import {
+  changeUsername,
+  changePassword,
+  login,
+  checkSession,
+} from "../reducers/authSlice";
 
 function LoginPage() {
-  // const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  const { username, password, userID, token, expTime, isLoggedIn } =
-    useSelector((state) => state.auth);
+  const { sessionValid } = useSelector((state) => state.auth);
 
   const handleUsernameChange = (event) => {
-    // setUsername(event.target.value);
     dispatch(changeUsername(event.target.value));
   };
 
   const handlePasswordChange = (event) => {
-    // setPassword(event.target.value);
     dispatch(changePassword(event.target.value));
   };
 
-  //if the handleLoginSubmit is successful, then redirect to next page
-  useEffect(() => {
-    if (isLoggedIn) navigate("/dashboard");
-  });
+  // //if the handleLoginSubmit is successful, then redirect to next page
+  // useEffect(() => {
+  //   if (sessionValid) navigate("/dashboard");
+  // }, [sessionValid]);
 
   //on login button click, this will fire to the auth slice
   const handleLoginSubmit = async () => {
