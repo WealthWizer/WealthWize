@@ -7,12 +7,7 @@ import axios from "axios";
 
 //show before change to redux and after change to Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changeUsername,
-  changePassword,
-  login,
-  checkSession,
-} from "../reducers/authSlice";
+import { changeUsername, changePassword, login } from "../reducers/authSlice";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -28,10 +23,10 @@ function LoginPage() {
     dispatch(changePassword(event.target.value));
   };
 
-  // //if the handleLoginSubmit is successful, then redirect to next page
-  // useEffect(() => {
-  //   if (sessionValid) navigate("/dashboard");
-  // }, [sessionValid]);
+  //if the handleLoginSubmit is successful, then redirect to next page
+  useEffect(() => {
+    if (sessionValid) navigate("/dashboard");
+  });
 
   //on login button click, this will fire to the auth slice
   const handleLoginSubmit = async () => {

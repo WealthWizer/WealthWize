@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import ApexDonut from "./donut";
 import { AuthContext } from "../authContext.js";
 import "./goals.css";
 import FilterIcon from "../images/Icons/filter";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { getGoals, reset } from "../reducers/goalSlice";
-
 
 const Goals = () => {
   const auth = useContext(AuthContext);
@@ -18,19 +17,21 @@ const Goals = () => {
   const dispatch = useDispatch();
 
   //redux slice
-  const { goals, isError, isLoading, message } = useSelector((state) => state.goals)
+  const { goals, isError, isLoading, message } = useSelector(
+    (state) => state.goals
+  );
 
   useEffect(() => {
-//start the redux here
-    if(isError) {
-      console.log(message)
+    //start the redux here
+    if (isError) {
+      console.log(message);
     }
 
     dispatch(getGoals());
 
     return () => {
-      dispatch(reset())
-    }
+      dispatch(reset());
+    };
     //we won't need this fetch once the redux dispatches are set up
 
     fetch("http://localhost:3000/dashboard/savinggoals", {
@@ -46,7 +47,7 @@ const Goals = () => {
     })
       .then((response) => response.json())
 
-//get the data back from the slice here
+      //get the data back from the slice here
 
       .then((data) => {
         console.log("data from goals post req: ", data);
@@ -72,7 +73,7 @@ const Goals = () => {
         setDropDown(goalsFromDB[0].category);
       })
       .catch((err) => console.log(err));
-  }, [user, navigate, isError, message, dispatch]);
+  }, [navigate, isError, message, dispatch]);
 
   const handleOnChange = (value) => {
     setDropDown(value);
