@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 //show before change to redux and after change to Redux
+import { useDispatch, useSelector } from "react-redux";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
-
 
 function LoginPage() {
   // const auth = useContext(AuthContext);
@@ -16,9 +16,8 @@ function LoginPage() {
 
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  const { username, password, token, expTime } = useSelector(
-    (state) => state.auth
-  );
+  const { username, password, userID, token, expTime, isLoggedIn } =
+    useSelector((state) => state.auth);
 
   const handleUsernameChange = (event) => {
     // setUsername(event.target.value);
@@ -30,64 +29,14 @@ function LoginPage() {
     dispatch(changePassword(event.target.value));
   };
 
-  // const userInfo = useSelector((state) => state.auth.userInfo);
+  //if the handleLoginSubmit is successful, then redirect to next page
+  useEffect(() => {
+    if (isLoggedIn) navigate("/dashboard");
+  });
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate("/dashboard");
-  //   }
-  // }, [navigate, userInfo]);
-
-  // const handleLoginSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await login({ username, password }).unwrap();
-  //     dispatch(setCredentials({ ...res }));
-  //     navigate('/dashboard')
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
+  //on login button click, this will fire to the auth slice
   const handleLoginSubmit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/login",
-        {
-          username,
-          password,
-        }
-      );
-      //what response object should look like
-      // status: "success",
-      //     token: generateToken(result),
-      //     username: result.rows[0].username,
-      //     userID: result.rows[0].id,
-
-      if (response.data.token) {
-        // if (response.token) {
-        // auth.login(
-        //   response.data.token,
-        //   response.data.username,
-        //   response.data.userID
-        // );
-        dispatch(() => login(response.data));
-
-        localStorage.setItem(
-          "data",
-          JSON.stringify({
-            token: token,
-            username: user,
-            userID: userID,
-            expireTime: autoLogoutTime.toISOString(),
-          })
-        );
-        console.log(localStorage, "fired");
-        navigate("/dashboard");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    dispatch(login());
   };
 
   return (
