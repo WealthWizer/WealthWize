@@ -21,59 +21,59 @@ const Goals = () => {
     (state) => state.goals
   );
 
-  useEffect(() => {
-    //start the redux here
-    if (isError) {
-      console.log(message);
-    }
+  // useEffect(() => {
+  //   //start the redux here
+  //   if (isError) {
+  //     console.log(message);
+  //   }
 
-    dispatch(getGoals());
+  //   dispatch(getGoals());
 
-    return () => {
-      dispatch(reset());
-    };
-    //we won't need this fetch once the redux dispatches are set up
+  //   return () => {
+  //     dispatch(reset());
+  //   };
+  //   //we won't need this fetch once the redux dispatches are set up
 
-    fetch("http://localhost:3000/dashboard/savinggoals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify({
-        // userID: auth.userID
-        userID: 1,
-      }),
-    })
-      .then((response) => response.json())
+  //   fetch("http://localhost:3000/dashboard/savinggoals", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${auth.token}`,
+  //     },
+  //     body: JSON.stringify({
+  //       // userID: auth.userID
+  //       userID: 1,
+  //     }),
+  //   })
+  //     .then((response) => response.json())
 
-      //get the data back from the slice here
+  //     //get the data back from the slice here
 
-      .then((data) => {
-        console.log("data from goals post req: ", data);
+  //     .then((data) => {
+  //       console.log("data from goals post req: ", data);
 
-        //use this to render the goals from state onto the page
-        const goalsFromDB = [];
-        data.forEach((element) => {
-          const existingGoal = goalsFromDB.find(
-            (goal) => goal.category === element.category
-          );
-          if (existingGoal) {
-            existingGoal.total += element.amount;
-          } else {
-            goalsFromDB.push({
-              category: element.category,
-              total: element.amount,
-              goal: element.goal,
-            });
-          }
-        });
-        // console.log('goalsFromDB: ', goalsFromDB)
-        setGoals(goalsFromDB);
-        setDropDown(goalsFromDB[0].category);
-      })
-      .catch((err) => console.log(err));
-  }, [navigate, isError, message, dispatch]);
+  //       //use this to render the goals from state onto the page
+  //       const goalsFromDB = [];
+  //       data.forEach((element) => {
+  //         const existingGoal = goalsFromDB.find(
+  //           (goal) => goal.category === element.category
+  //         );
+  //         if (existingGoal) {
+  //           existingGoal.total += element.amount;
+  //         } else {
+  //           goalsFromDB.push({
+  //             category: element.category,
+  //             total: element.amount,
+  //             goal: element.goal,
+  //           });
+  //         }
+  //       });
+  //       // console.log('goalsFromDB: ', goalsFromDB)
+  //       setGoals(goalsFromDB);
+  //       setDropDown(goalsFromDB[0].category);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [navigate, isError, message, dispatch]);
 
   const handleOnChange = (value) => {
     setDropDown(value);
