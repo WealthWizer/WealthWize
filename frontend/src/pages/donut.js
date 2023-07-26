@@ -1,5 +1,5 @@
 import Chart from "react-apexcharts";
-import React from "react";
+import React, { useState } from "react";
 
 export default function ApexDonut({ goals, dropDown, setReachGoal }) {
     // console.log('goals: ', goals)
@@ -10,14 +10,13 @@ export default function ApexDonut({ goals, dropDown, setReachGoal }) {
     goals.map((goal) => {
         if (goal.category === dropDown) {
 
+            console.log('goals map:', goal)
+
             const firstVal = Math.trunc(goal.total / goal.goal * 100)
             const secondVal = 100 - firstVal
-
             series.push(firstVal, secondVal)
         }
     })
-
-    // console.log('series: ', series)
 
     if (series[0] < 100) {
         setReachGoal(false);
@@ -74,6 +73,15 @@ export default function ApexDonut({ goals, dropDown, setReachGoal }) {
         }
         return (
             <div className='donut'>
+                {/* <button onClick={removeGoal}>-</button> */}
+                {/* <Popup trigger={<button>-</button>} position="right center">
+                    <h5>{dropDown}</h5>
+                    <label>Current Goal: {currentGoal}</label>
+                    <br></br>
+                    <label>New Goal: <input type='text' onChange={e => newGoal=e.target.value}></input></label>
+                    <button onClick={updateGoal}>Update</button>
+                    <button onClick={removeGoal}>Remove</button>
+                </Popup> */}
                 <Chart
                     options={options}
                     series={series}

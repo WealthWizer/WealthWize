@@ -26,16 +26,16 @@ exports.login = async (req, res, next) => {
     // if (authenticated === result.rows[0].password) {
     if (authenticated) {
       res.status(200).json({
-        status: "success",
-        token: generateToken(result),
-        username: result.rows[0].username,
-        userID: result.rows[0].id,
-      });
-    } else {
-      next("username or password is incorrect");
-    }
-  } catch (err) {
-    next(err);
+          status: "success",
+          token: generateToken(result),
+          username: result.rows[0].username,
+          userID: result.rows[0].id,
+        });
+      } else {
+        next("username or password is incorrect")
+      }
+    } catch (err) {
+      next(err);
   }
 };
 

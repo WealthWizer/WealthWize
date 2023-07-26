@@ -18,10 +18,51 @@ function BudgetForm({ setSidebar }) {
   const [bold, setBold] = useState();
   const auth = useContext(AuthContext);
 
+<<<<<<< HEAD
   function useForceUpdate() {
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     return forceUpdate;
   }
+=======
+    const [goalAmount, setGoalAmount] = useState('');
+    const [goalCategory, setGoalCategory] = useState('');
+    const [value, setValue] = useState();
+    const [bold, setBold] = useState();
+    // const auth = useContext(AuthContext);
+    // hardcoded for testing
+    const auth = {
+        userID: 2,
+        username: 'shiyuliu',
+        token: 'test'
+    }
+    
+    function useForceUpdate() {
+        const [, forceUpdate] = useReducer(x => x + 1, 0);
+        return forceUpdate;
+      }
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+        setValue('');
+        setSidebar(false);
+        // useForceUpdate()
+        fetch('http://localhost:3000/dashboard/budget', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.token}`
+            },
+            body: JSON.stringify({
+                // sending month for range of month - weekStart and weekEnd
+                userID: auth.userID,
+                goalAmount: goalAmount,
+                goalCategory: goalCategory
+            })
+        })
+            // .then(() => useForceUpdate())
+            .catch(err => console.log(err))
+    }
+>>>>>>> dev
 
   const onSubmitHandler = (event) => {
     event.preventDefault();

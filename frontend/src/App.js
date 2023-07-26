@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter, useNavigate } from "react-router-dom";
 import Dashboard from "./pages/dashboard";
 import Signup from "./pages/Signup";
 import LoginPage from "./pages/LoginPage";
+import { AuthContext } from "./authContext";
 import "./index.css";
 
 import { logout, login, checkSession } from "./reducers/authSlice";
@@ -12,7 +13,6 @@ function App() {
   const { sessionValid } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!sessionValid) {

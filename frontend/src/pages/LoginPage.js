@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 //show before change to redux and after change to Redux
-import { useDispatch, useSelector } from "react-redux";
+// import { setCredentials } from "../slices/authSlice";
 import { changeUsername, changePassword, login } from "../reducers/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -28,9 +29,36 @@ function LoginPage() {
     if (sessionValid) navigate("/dashboard");
   });
 
-  //on login button click, this will fire to the auth slice
   const handleLoginSubmit = async () => {
-    dispatch(login());
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/users/login",
+        {
+          username,
+          password,
+        }
+      );
+      //what response object should look like
+      // status: "success",
+      //     token: generateToken(result),
+      //     username: result.rows[0].username,
+      //     userID: result.rows[0].id,
+
+      console.log(response);
+
+      if (response.data.token) {
+        // if (response.token) {
+        // auth.login(
+        //   response.data.token,
+        //   response.data.username,
+        //   response.data.userID
+        // );
+        dispatch(() => login(response.data));
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
