@@ -7,7 +7,7 @@ dataController.savings = async (req, res, next) => {
   console.log("i am in dataController.savings");
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = 'SELECT * FROM "public"."savings"';
+    const querystr = `SELECT * FROM "public"."savings"  WHERE user_id = ${req.params.userID}`;
     const result = await db.query(querystr);
 
     const savingsTable = result.rows;
@@ -26,10 +26,10 @@ dataController.savings = async (req, res, next) => {
 
 //budget
 dataController.budget = async (req, res, next) => {
-  // console.log('i am in dataController.budget');
+  console.log('i am in dataController.budget');
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = 'SELECT * FROM "public"."budget"';
+    const querystr = `SELECT * FROM "public"."budget" WHERE user_id = ${req.params.userID}`;
     const result = await db.query(querystr);
 
     const budgetTable = result.rows;
@@ -48,10 +48,11 @@ dataController.budget = async (req, res, next) => {
 
 //savings_goals
 dataController.savings_goals = async (req, res, next) => {
-  // console.log('i am in dataController.savings_goals')
+  console.log('i am in dataController.savings_goals')
+
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = 'SELECT * FROM "public"."savings_goals"';
+    const querystr = `SELECT * FROM "public"."savings_goals" WHERE user_id = ${req.params.userID}`;
     const result = await db.query(querystr);
 
     const savings_goalsTable = result.rows;
@@ -74,7 +75,7 @@ dataController.transactions = async (req, res, next) => {
   try {
     //change querystr when figured out if we are matching userid or username
     const querystr =
-      'SELECT * FROM "public"."transactions" ORDER BY date LIMIT 100';
+      `SELECT * FROM "public"."transactions" WHERE user_id = ${req.params.userID} ORDER BY date LIMIT 100`;
     const result = await db.query(querystr);
 
     const transactionsTable = result.rows;
@@ -96,7 +97,7 @@ dataController.users = async (req, res, next) => {
   // console.log('i am in dataController.users')
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = 'SELECT * FROM "public"."users"';
+    const querystr = `SELECT * FROM "public"."users" WHERE id = ${req.params.userID}`;
     const result = await db.query(querystr);
 
     const usersTable = result.rows;
@@ -133,7 +134,7 @@ dataController.newExpense = async (req, res, next) => {
     console.log(req.body);
     const expense = req.body;
     console.log(expense);
-    querystr = `INSERT INTO transactions (user_id, category, amount, date, "vendorName")
+    querystr = `INSERT INTO transactions (user_id, category, amount, date, vendor_name)
       VALUES(${expense.userID}, '${expense.category}', ${expense.amount}, '${expense.date}', '${expense.vendorName}')`;
 
     const result = await db.query(querystr);
@@ -142,4 +143,44 @@ dataController.newExpense = async (req, res, next) => {
     next(err);
   }
 };
+
+dataController.save = async (req, res, next) => {
+  try {
+    const saving = req.body;
+    const querystr = `INSERT INTO savings (user_id, category, amount, date)
+      VALUES(${saving.userID}, '${saving.category}', ${saving.amount}, current_date)
+      ON CONFLICT(user_id, category) DO UPDATE SET amount = (SELECT amount + ${saving.amount} FROM savings
+      WHERE user_id = ${saving.userID} AND category = '${saving.category}')`;
+    await db.query(querystr);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+dataController.updateGoal = async (req, res, next) => {
+  try {
+    const { userID, category, amount } = req.body;
+    const updateGoalQuery = `UPDATE savings_goals SET goal = ${amount} WHERE user_id = ${userID} AND category = '${category}'`;
+    console.log(updateGoalQuery);
+    await db.query(updateGoalQuery);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+dataController.removeGoal = async (req, res, next) => {
+  try {
+    const { userID, category } = req.query;
+    const removeGoalQuery = `DELETE FROM savings_goals WHERE user_id = ${userID} AND category = '${category}'`;
+    const removeCategorySavings = `DELETE FROM savings WHERE user_id = ${userID} AND category = '${category}'`;
+    await db.query(removeGoalQuery);
+    await db.query(removeCategorySavings);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = dataController;
