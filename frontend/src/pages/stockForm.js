@@ -17,7 +17,7 @@ function stockForm ({ setSidebar }) {
     setSidebar(false);
 
     try {
-      console.log(stockPrice) => s
+      console.log(stockPrice)
       const res = await axios.post('http://localhost:3000/dashboard/investment'), {
         method: POśT,
         headers: {

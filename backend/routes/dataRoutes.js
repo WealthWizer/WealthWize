@@ -11,7 +11,7 @@ const router = express.Router();
 // ROUTES
 
 router.get(
-  "/",
+  "/:userID",
   // authController.protectRoute,
   dataController.savings,
   dataController.budget,
@@ -19,6 +19,8 @@ router.get(
   dataController.transactions,
   dataController.users
 );
+
+router.post('/save', dataController.save);
 
 router.post("/transaction", transactionController.rangeOfTransactions);
 
@@ -30,5 +32,8 @@ router.post("/savegoal", dataController.savingGoals);
 
 router.post("/expense", dataController.newExpense);
 
+router.patch('/updateGoal', dataController.updateGoal);
+
+router.delete('/removeGoal', dataController.removeGoal);
 
 module.exports = router;
