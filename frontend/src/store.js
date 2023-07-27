@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 // import counterReducer from "./slice";
 import authReducer from "./reducers/authSlice";
 import goalReducer from "./reducers/goalSlice";
+import stockReducer from "./slices/stockSlice";
 
 export default configureStore({
   reducer: {
     auth: authReducer,
-    goals: goalReducer
+    goals: goalReducer,
+    stocks: stockReducer
     // counter: counterReducer,
   },
 });
