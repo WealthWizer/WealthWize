@@ -10,7 +10,12 @@ import { AuthContext } from "../authContext.js";
 import PlusIcon from "../images/Icons/+.js";
 
 const Dashboard = ({ username }) => {
-  const auth = useContext(AuthContext);
+  // hardcoded for testing
+  const auth = {
+    userID: 2,
+    username: 'shiyuliu',
+    token: 'test'
+  }
   console.log(" here is the token", auth);
 
   //declare states
@@ -22,12 +27,13 @@ const Dashboard = ({ username }) => {
     const fetchTables = async () => {
       try {
         // console.log("hello from useEffect");
-        const response = await fetch("http://localhost:3000/dashboard", {
+        const response = await fetch(`http://localhost:3000/dashboard/${auth.userID}`, {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         const jsonData = await response.json();
         // console.log("here is the jsonDATA", jsonData);
         // console.log('jsonData', jsonData.savings)
+        console.log(jsonData);
         setDataTables({ ...jsonData });
       } catch (error) {
         console.log("error at fetchTables: ", error);

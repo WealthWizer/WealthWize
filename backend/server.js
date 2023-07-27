@@ -4,6 +4,7 @@ const userRouter = require("./routes/userRoutes.js");
 const dataRoutes = require("./routes/dataRoutes.js");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const dataController = require("./controller/dataController");
 const app = express();
 const PORT = 3000;
 
