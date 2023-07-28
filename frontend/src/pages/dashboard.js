@@ -8,17 +8,16 @@ import Overview from "./Overview.js";
 import "./dashboard.css";
 import { AuthContext } from "../authContext.js";
 import PlusIcon from "../images/Icons/+.js";
+import { useDispatch, useSelector } from "react-redux";
 
-const Dashboard = ({ username }) => {
-  const auth = useContext(AuthContext);
-  // console.log(" here is the token", auth);
-  // hardcoded for testing
-  const auth = {
-    userID: 2,
-    username: "shiyuliu",
-    token: "test",
-  };
-  console.log(" here is the token", auth);
+//cahnge this
+import { logout } from "../reducers/authSlice";
+
+const Dashboard = () => {
+  const dispatch = useDispatch();
+
+  const userData = JSON.parse(localStorage.getItem("data"));
+  const { username, userID, token } = userData;
 
   //declare states
   const [dataTables, setDataTables] = useState({});
@@ -30,9 +29,9 @@ const Dashboard = ({ username }) => {
       try {
         // console.log("hello from useEffect");
         const response = await fetch(
-          `http://localhost:3000/dashboard/${auth.userID}`,
+          `http://localhost:3000/dashboard/${userID}`,
           {
-            headers: { Authorization: `Bearer ${auth.token}` },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
         const jsonData = await response.json();
@@ -51,7 +50,7 @@ const Dashboard = ({ username }) => {
   console.log("sidebar: ", sidebar);
   return (
     <div className="dashboard">
-      <Navbar username={username} />
+      <Navbar />
       <Overview dataTables={dataTables} setDataTables={setDataTables} />
       <div className="components">
         <Transactions dataTables={dataTables} setDataTables={setDataTables} />

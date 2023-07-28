@@ -14,7 +14,9 @@ function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { sessionValid } = useSelector((state) => state.auth);
+  const { sessionValid, username, password } = useSelector(
+    (state) => state.auth
+  );
 
   const handleUsernameChange = (event) => {
     dispatch(changeUsername(event.target.value));
@@ -26,40 +28,9 @@ function LoginPage() {
 
   //if the handleLoginSubmit is successful, then redirect to next page
   useEffect(() => {
-    if (sessionValid) navigate("/dashboard");
+    const userData = JSON.parse(localStorage.getItem("data"));
+    if (userData) navigate("/dashboard");
   });
-
-  const handleLoginSubmit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/users/login",
-        {
-          username,
-          password,
-        }
-      );
-      //what response object should look like
-      // status: "success",
-      //     token: generateToken(result),
-      //     username: result.rows[0].username,
-      //     userID: result.rows[0].id,
-
-      console.log(response);
-
-      if (response.data.token) {
-        // if (response.token) {
-        // auth.login(
-        //   response.data.token,
-        //   response.data.username,
-        //   response.data.userID
-        // );
-        dispatch(() => login(response.data));
-        navigate("/dashboard");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div className="login-signup-page-container">
@@ -94,7 +65,10 @@ function LoginPage() {
               Sign up here
             </span>
           </div>
-          <button className="login-signup-btn" onClick={handleLoginSubmit}>
+          <button
+            className="login-signup-btn"
+            onClick={() => dispatch(login())}
+          >
             Log In
           </button>
         </div>
