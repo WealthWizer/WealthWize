@@ -1,4 +1,5 @@
 const db = require("../db/sqlmodel");
+const { get } = require("../routes/dataRoutes");
 
 const dataController = {};
 
@@ -145,13 +146,21 @@ dataController.newExpense = async (req, res, next) => {
 
 dataController.save = async (req, res, next) => {
   try {
-    const saving = req.body;
+    const savings = req.body;
     const querystr = `INSERT INTO savings (user_id, category, amount, date)
-      VALUES(${saving.userID}, '${saving.category}', ${saving.amount}, current_date)
-      ON CONFLICT(user_id, category) DO UPDATE SET amount = (SELECT amount + ${saving.amount} FROM savings
-      WHERE user_id = ${saving.userID} AND category = '${saving.category}')`;
+      VALUES(${savings.userID}, '${savings.category}', ${savings.amount}, current_date)
+      ON CONFLICT(user_id, category) DO UPDATE SET amount = (SELECT amount + ${savings.amount} FROM savings
+      WHERE user_id = ${savings.userID} AND category = '${savings.category}')`;
     await db.query(querystr);
-    return next();
+
+    const checkTotalAndGoal = `SELECT savings.amount = savings_goals.goal AS goal_achieved,
+    savings.amount AS total, savings_goals.goal AS goal FROM savings JOIN savings_goals 
+    ON savings.user_id = savings_goals.user_id 
+    AND savings.category = savings_goals.category 
+    WHERE savings.user_id = ${savings.userID} AND savings.category = '${savings.category}';`
+    const goal_achieved = await db.query(checkTotalAndGoal);
+
+    return res.status(200).json(goal_achieved.rows[0]);
   } catch (err) {
     next(err);
   }
@@ -161,9 +170,14 @@ dataController.updateGoal = async (req, res, next) => {
   try {
     const { userID, category, amount } = req.body;
     const updateGoalQuery = `UPDATE savings_goals SET goal = ${amount} WHERE user_id = ${userID} AND category = '${category}'`;
-    console.log(updateGoalQuery);
     await db.query(updateGoalQuery);
-    return next();
+    const getNewGoalsQuery = `SELECT savings.category AS category, savings.amount AS total, savings_goals.goal AS goal
+    FROM savings_goals
+    LEFT JOIN savings ON savings_goals.user_id = savings.user_id
+    AND savings_goals.category = savings.category
+    WHERE savings_goals.user_id = ${userID}`;
+    const response = await db.query(getNewGoalsQuery)
+    return res.status(200).json(response.rows);
   } catch (err) {
     next(err);
   }
@@ -176,7 +190,13 @@ dataController.removeGoal = async (req, res, next) => {
     const removeCategorySavings = `DELETE FROM savings WHERE user_id = ${userID} AND category = '${category}'`;
     await db.query(removeGoalQuery);
     await db.query(removeCategorySavings);
-    return next();
+    const getNewGoalsQuery = `SELECT savings.category AS category, savings.amount AS total, savings_goals.goal AS goal
+    FROM savings_goals
+    LEFT JOIN savings ON savings_goals.user_id = savings.user_id
+    AND savings_goals.category = savings.category
+    WHERE savings_goals.user_id = ${userID}`;
+    const response = await db.query(getNewGoalsQuery)
+    return res.status(200).json(response.rows);
   } catch (err) {
     next(err);
   }
