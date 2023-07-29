@@ -3,8 +3,11 @@ import "./Overview.css";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
-const Overview = ({ dataTables }) => {
+const Overview = () => {
+  const dataTables = useSelector((state) => state.dashboard);
+
   const [total, setTotal] = useState(null);
   const [accounts, setAccounts] = useState({ checking: 5000, savings: 0 });
   const [options, setOptions] = useState([]);

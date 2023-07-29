@@ -6,12 +6,12 @@ import Sidebar from "./Sidebar.js";
 import Transactions from "./Transactions.js";
 import Overview from "./Overview.js";
 import "./dashboard.css";
-import { AuthContext } from "../authContext.js";
 import PlusIcon from "../images/Icons/+.js";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchTables, setSidebar } from "../reducers/dashboardSlice.js";
 
-//cahnge this
-import { logout } from "../reducers/authSlice";
+//change propdrilling datatables
+//change propdrilling setSidebar
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -20,62 +20,33 @@ const Dashboard = () => {
   const { username, userID, token } = userData;
 
   //declare states
-  const [dataTables, setDataTables] = useState({});
-  const [sidebar, setSidebar] = useState(false);
-  const [rerender, setRerender] = useState(false);
+  const [dataTables1, setDataTables] = useState({});
+  // const [sidebar, setSidebar] = useState(false);
+  // const [rerender, setRerender] = useState(false);
+  const { sidebar, rerender, dataTables } = useSelector(
+    (state) => state.dashboard
+  );
 
   useEffect(() => {
-    const fetchTables = async () => {
-      try {
-        // console.log("hello from useEffect");
-        const response = await fetch(
-          `http://localhost:3000/dashboard/${userID}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const jsonData = await response.json();
-        // console.log("here is the jsonDATA", jsonData);
-        // console.log('jsonData', jsonData.savings)
-        console.log(jsonData);
-        setDataTables({ ...jsonData });
-      } catch (error) {
-        console.log("error at fetchTables: ", error);
-      }
-    };
-    fetchTables();
-    // console.log('setTablessworked', dataTables);
+    dispatch(fetchTables());
   }, [sidebar]);
-  // console.log('setTablessworked', dataTables.budget);
-  console.log("sidebar: ", sidebar);
   return (
     <div className="dashboard">
       <Navbar />
-      <Overview dataTables={dataTables} setDataTables={setDataTables} />
+      <Overview />
       <div className="components">
-        <Transactions dataTables={dataTables} setDataTables={setDataTables} />
-        <Budget
-          setSidebar={setSidebar}
-          dataTables={dataTables}
-          setDataTables={setDataTables}
-        />
-        <Goals dataTables={dataTables} setDataTables={setDataTables} />
+        <Transactions />
+        <Budget />
+        <Goals />
       </div>
       <button
-        onClick={() => setSidebar((current) => !current)}
+        onClick={() => dispatch(setSidebar(!sidebar))}
         type="button"
         id="sidebar-button"
       >
         <PlusIcon />
       </button>
-      {sidebar && (
-        <Sidebar
-          setSidebar={setSidebar}
-          dataTables={dataTables}
-          setDataTables={setDataTables}
-          setRerender={setRerender}
-        />
-      )}
+      {sidebar && <Sidebar setSidebar={setSidebar} />}
     </div>
   );
 };

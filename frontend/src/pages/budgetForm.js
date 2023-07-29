@@ -10,8 +10,12 @@ import UtilitiesIcon from "../images/Icons/utilities";
 import MediaclIcon from "../images/Icons/medical";
 import TransportationIcon from "../images/Icons/transportation";
 import HousingIcon from "../images/Icons/housing";
+import { useDispatch, useSelector } from "react-redux";
+import { setSidebar } from "../reducers/dashboardSlice.js";
 
-function BudgetForm({ setSidebar }) {
+function BudgetForm() {
+  const dispatch = useDispatch();
+
   const [goalAmount, setGoalAmount] = useState("");
   const [goalCategory, setGoalCategory] = useState("");
   const [value, setValue] = useState();
@@ -32,7 +36,7 @@ function BudgetForm({ setSidebar }) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     setValue("");
-    setSidebar(false);
+    dispatch(setSidebar(false));
     // useForceUpdate()
     fetch("http://localhost:3000/dashboard/budget", {
       method: "POST",
