@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import ApexDonut from "./donut";
 import { AuthContext } from "../authContext.js";
 import "./goals.css";
 import FilterIcon from "../images/Icons/filter";
-import { useSelector, useDispatch } from "react-redux";
-import { getGoals, reset } from "../reducers/goalSlice";
-import Popup from "reactjs-popup";
-import axios from "axios";
+import Popup from 'reactjs-popup';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -17,9 +14,9 @@ const Goals = () => {
   // hardcoded for testing
   const auth = {
     userID: 2,
-    username: "shiyuliu",
-    token: "test",
-  };
+    username: 'shiyuliu',
+    token: 'test'
+  }
   const [goals, setGoals] = useState([]);
   const [dropDown, setDropDown] = useState();
   const [reachedGoal, setReachGoal] = useState(false);
@@ -34,7 +31,7 @@ const Goals = () => {
         Authorization: `Bearer ${auth.token}`,
       },
       body: JSON.stringify({
-        userID: auth.userID,
+        userID: auth.userID
       }),
     })
       .then((response) => response.json())
@@ -63,45 +60,47 @@ const Goals = () => {
   }, []);
 
   const updateGoal = async () => {
-    try {
-      const newGoals = await axios.patch(
-        "http://localhost:3000/dashboard/updateGoal",
-        {
-          userID: 2,
-          category: dropDown,
-          amount: newGoal,
-        }
-      );
+      try {
+          const newGoals = await axios.patch(
+          "http://localhost:3000/dashboard/updateGoal",
+              {
+              userID: 2,
+              category: dropDown,
+              amount: newGoal
+              }
+          );
           // const newGoals = await data.json();;
           setGoals(newGoals.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      }
+      catch(err) {
+          console.log(err);
+      }
+  }
 
   const removeGoal = async () => {
-    try {
-      const data = await axios.delete(
-        "http://localhost:3000/dashboard/removeGoal",
-        {
-          params: {
-            userID: 2,
-            category: dropDown,
-          },
-        }
-      )
+      try {
+          const data = await axios.delete(
+          "http://localhost:3000/dashboard/removeGoal",
+              { 
+                  params: {
+                  userID: 2,
+                  category: dropDown
+                  }
+              }
+          )
           setGoals(data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      }
+      catch(err) {
+          console.log(err);
+      }
+  }
 
   const handleOnChange = (value) => {
     setDropDown(value);
   };
 
   // console.log('dropDown: ', dropDown)
-  console.log("goals: ", goals);
+  console.log('goals: ', goals)
 
   return (
     <div className="Goals">
@@ -130,13 +129,7 @@ const Goals = () => {
                 close => (
                   <div id='goalChangesPopup' style={{fontSize: '16px'}}>
                   <h5>{dropDown}</h5>
-                  <label>
-            what's your new goal?{" "}
-            <input
-              type="text"
-              onChange={(e) => setNewGoal(e.target.value)}
-            ></input>
-          </label>
+                  <label>what's your new goal? <input type='text' onChange={e => setNewGoal(e.target.value)}></input></label>
                   <button onClick={() => {updateGoal(); close()}}>Update</button>
                   <br></br>
                 </div>

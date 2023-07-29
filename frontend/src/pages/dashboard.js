@@ -7,34 +7,49 @@ import Transactions from "./Transactions.js";
 // import Stocks from "./Stocks.js";
 import Overview from "./Overview.js";
 import "./dashboard.css";
+import { AuthContext } from "../authContext.js";
 import PlusIcon from "../images/Icons/+.js";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchTables, setSidebar } from "../reducers/dashboardSlice.js";
 
-//change propdrilling datatables
-//change propdrilling setSidebar
-
-const Dashboard = () => {
-  const dispatch = useDispatch();
-
-  const userData = JSON.parse(localStorage.getItem("data"));
-  // const { username, userID, token } = userData;
+const Dashboard = ({ username }) => {
+  // hardcoded for testing
+  const auth = {
+    userID: 2,
+    username: 'shiyuliu',
+    token: 'test'
+  }
+  console.log("here is the token", auth);
 
   //declare states
-  const [dataTables1, setDataTables] = useState({});
-  // const [sidebar, setSidebar] = useState(false);
-  // const [rerender, setRerender] = useState(false);
-  const { sidebar, rerender, dataTables } = useSelector(
-    (state) => state.dashboard
-  );
+  const [dataTables, setDataTables] = useState({});
+  const [sidebar, setSidebar] = useState(false);
+  const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchTables());
-  }, [sidebar]);
+    const fetchTables = async () => {
+      try {
+        // console.log("hello from useEffect");
+        const response = await fetch(`http://localhost:3000/dashboard/${auth.userID}`, {
+          headers: { Authorization: `Bearer ${auth.token}` },
+        });
+        const jsonData = await response.json();
+        // console.log("here is the jsonDATA", jsonData);
+        // console.log('jsonData', jsonData.savings)
+        console.log('jsonData: ', jsonData);
+        setDataTables({ ...jsonData });
+      } catch (error) {
+        console.log("error at fetchTables: ", error);
+      }
+    };
+    fetchTables();
+    // console.log('setTablessworked', dataTables);
+  },[]); //[sidebar]
+  // console.log('setTablessworked', dataTables.budget);
+  // console.log("sidebar: ", sidebar);
+  console.log("from dashboard datatables", dataTables);
   return (
     <div className="dashboard">
-      <Navbar />
-      <Overview />
+      <Navbar username={username} />
+      <Overview dataTables={dataTables} setDataTables={setDataTables} />
       <div className="components">
         {/* <Transactions dataTables={dataTables} setDataTables={setDataTables} />
         <Budget
@@ -49,13 +64,20 @@ const Dashboard = () => {
         <Goals />
       </div>
       <button
-        onClick={() => dispatch(setSidebar(!sidebar))}
+        onClick={() => setSidebar((current) => !current)}
         type="button"
         id="sidebar-button"
       >
         <PlusIcon />
       </button>
-      {sidebar && <Sidebar setSidebar={setSidebar} />}
+      {sidebar && (
+        <Sidebar
+          setSidebar={setSidebar}
+          dataTables={dataTables}
+          setDataTables={setDataTables}
+          setRerender={setRerender}
+        />
+      )}
     </div>
   );
 };
