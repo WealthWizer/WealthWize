@@ -13,21 +13,22 @@ import HousingIcon from "../images/Icons/housing";
 import ExpenseForm from "./expenseForm";
 import BudgetForm from "./budgetForm";
 import GoalForm from "./goalForm";
+import StockForm from "./stockForm";
 
 const Sidebar = ({ setSidebar, setRerender }) => {
   //declare the three states for expense, goal, and budget selections
   const [expenseSelection, setExpenseSelection] = useState(true);
   const [budgetSelection, setBudgetSelection] = useState(false);
   const [goalSelection, setGoalSelection] = useState(false);
+  const [stockSelection, setStockSelection] = useState(false);
 
   //handle onClick event when expense/goal/ or budget is clicked
   const handleSideBarSelection = (value) => {
     const selected = value;
-    value === "expense"
-      ? setExpenseSelection(true)
-      : setExpenseSelection(false);
+    value === "expense" ? setExpenseSelection(true) : setExpenseSelection(false);
     value === "budget" ? setBudgetSelection(true) : setBudgetSelection(false);
     value === "goal" ? setGoalSelection(true) : setGoalSelection(false);
+    value === "stock" ? setStockSelection(true) : setStockSelection(false);
   };
 
   return (
@@ -61,12 +62,20 @@ const Sidebar = ({ setSidebar, setRerender }) => {
           >
             Goal
           </button>
+          <button
+            className="stock"
+            value="stock"
+            onClick={(e) => handleSideBarSelection(e.target.value)}
+          >
+            Stock
+          </button>
         </div>
         {expenseSelection && (
           <ExpenseForm setSidebar={setSidebar} setRerender={setRerender} />
         )}
         {budgetSelection && <BudgetForm setSidebar={setSidebar} />}
         {goalSelection && <GoalForm setSidebar={setSidebar} />}
+        {stockSelection && <StockForm setSidebar={setSidebar} />}
       </div>
     </div>
   );
