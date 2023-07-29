@@ -7,7 +7,7 @@ dataController.savings = async (req, res, next) => {
   // console.log("i am in dataController.savings");
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = `SELECT * FROM "public"."savings"  WHERE user_id = ${req.params.userID}`;
+    const querystr = 'SELECT * FROM "public"."savings"';
     const result = await db.query(querystr);
 
     const savingsTable = result.rows;
@@ -26,10 +26,10 @@ dataController.savings = async (req, res, next) => {
 
 //budget
 dataController.budget = async (req, res, next) => {
-  console.log('i am in dataController.budget');
+  // console.log('i am in dataController.budget');
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = `SELECT * FROM "public"."budget" WHERE user_id = ${req.params.userID}`;
+    const querystr = 'SELECT * FROM "public"."budget"';
     const result = await db.query(querystr);
 
     const budgetTable = result.rows;
@@ -48,11 +48,10 @@ dataController.budget = async (req, res, next) => {
 
 //savings_goals
 dataController.savings_goals = async (req, res, next) => {
-  console.log('i am in dataController.savings_goals')
-
+  // console.log('i am in dataController.savings_goals')
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = `SELECT * FROM "public"."savings_goals" WHERE user_id = ${req.params.userID}`;
+    const querystr = 'SELECT * FROM "public"."savings_goals"';
     const result = await db.query(querystr);
 
     const savings_goalsTable = result.rows;
@@ -75,7 +74,7 @@ dataController.transactions = async (req, res, next) => {
   try {
     //change querystr when figured out if we are matching userid or username
     const querystr =
-      `SELECT * FROM "public"."transactions" WHERE user_id = ${req.params.userID} ORDER BY date LIMIT 100`;
+      'SELECT * FROM "public"."transactions" ORDER BY date LIMIT 100';
     const result = await db.query(querystr);
 
     const transactionsTable = result.rows;
@@ -97,7 +96,7 @@ dataController.users = async (req, res, next) => {
   // console.log('i am in dataController.users')
   try {
     //change querystr when figured out if we are matching userid or username
-    const querystr = `SELECT * FROM "public"."users" WHERE id = ${req.params.userID}`;
+    const querystr = 'SELECT * FROM "public"."users"';
     const result = await db.query(querystr);
 
     const usersTable = result.rows;
@@ -178,6 +177,52 @@ dataController.removeGoal = async (req, res, next) => {
     await db.query(removeGoalQuery);
     await db.query(removeCategorySavings);
     return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+dataController.getAllStocks = async (req, res, next) => {
+  try {
+    const querystr = 'SELECT * FROM "public"."stocks"';
+    const result = await db.query(querystr);
+
+    const stocksTable = result.rows;
+    res.locals.stocks = stocksTable;
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+dataController.addStock = async (req, res, next) => {
+  try {
+    const { user_id, stock_name, stock_price, num_shares } = req.body;
+    insertQuery = `INSERT INTO stocks (user_id, stock_name, stock_price, num_shares) VALUES (${user_id.user_id}, '${stock_name.stock_name}', ${stock_price.stock_price}), ${num_shares.num_shares})`;
+    await db.query(insertQuery);
+
+    return next(); 
+  } catch (err) {
+    next(err);
+  }
+};
+
+// dataController.getStockById = async (req, res, next) => {
+//   try {
+//     const querystr = `SELECT * FROM "public"."stocks" WHERE user_id = ${req.params.userID} AND stock_id = ${req.params.stockID}`;
+//     const result = await db.query(querystr);
+//     const stock = result.rows[0];
+//     res.json(stock);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+dataController.deleteStock = async (req, res, next) => {
+  try {
+    const deleteQuery = `DELETE FROM stocks WHERE user_id = ${req.query.user_id} AND stock_id = ${req.query.stockID}`;
+    await db.query(deleteQuery);
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }
