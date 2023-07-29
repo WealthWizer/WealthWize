@@ -4,10 +4,11 @@ import { AuthContext } from "../authContext";
 import { useDispatch } from "react-redux";
 import { addStock } from "../reducers/stockSlice";
 import axios from "axios";
+import { setSidebar, setRerender } from "../reducers/dashboardSlice.js";
 
-function stockForm ({ userID, setSidebar }) {
-  // const auth = useContext(AuthContext);
-  // const d = new Date();
+function stockForm ({ userID }) {
+  const dispatch = useDispatch();
+
   const auth = {
     userID: 2,
     username: 'shiyuliu',
@@ -23,7 +24,7 @@ function stockForm ({ userID, setSidebar }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSidebar(false);
+    dispatch(setSidebar(false));
     try {
       const res = await fetch('http://localhost:3000/dashboard/stocks', {
         method: POST,
@@ -44,6 +45,8 @@ function stockForm ({ userID, setSidebar }) {
       console.log(err);
     }
   }
+
+  
 
   const handleName = (val) => {
     setStockName(val);

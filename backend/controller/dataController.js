@@ -198,7 +198,7 @@ dataController.getAllStocks = async (req, res, next) => {
 dataController.addStock = async (req, res, next) => {
   try {
     const { user_id, stock_name, stock_price, num_shares } = req.body;
-    insertQuery = `INSERT INTO stocks (user_id, stock_name, stock_price, num_shares) VALUES (${user_id.user_id}, '${stock_name.stock_name}', ${stock_price.stock_price}), ${num_shares.num_shares})`;
+    const insertQuery = `INSERT INTO stocks (user_id, stock_name, stock_price, num_shares) VALUES (${user_id.user_id}, '${stock_name.stock_name}', ${stock_price.stock_price}), ${num_shares.num_shares})`;
     await db.query(insertQuery);
 
     return next(); 

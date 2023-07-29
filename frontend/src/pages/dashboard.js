@@ -24,7 +24,7 @@ const Dashboard = () => {
   const [dataTables1, setDataTables] = useState({});
   // const [sidebar, setSidebar] = useState(false);
   // const [rerender, setRerender] = useState(false);
-  const { sidebar, rerender, dataTables } = useSelector(
+  const { sidebar } = useSelector(
     (state) => state.dashboard
   );
 
