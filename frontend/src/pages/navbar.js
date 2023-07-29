@@ -1,21 +1,22 @@
 import React, { useState, useContext } from "react";
 import NotificationIcon from "../images/Icons/notification";
-import { AuthContext } from "../authContext";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
 import "../index.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../reducers/authSlice";
 
-const Navbar = ({ username }) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  // const auth = useContext(AuthContext);
-  // hardcoded for testing
-  const auth = {
-    userID: 2,
-    username: 'shiyuliu',
-    token: 'test'
-  }
+  const dispatch = useDispatch();
+
+  //read username from local storage
+  const userData = JSON.parse(localStorage.getItem("data"));
+  const { username } = userData;
+
+  //once logged out, useEffect in App.js should redirect to root
   const handleLogout = () => {
-    auth.logout();
+    dispatch(logout());
     navigate("/");
   };
 
