@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
-import "./goalForm.css";
+import "./stockForm.css";
 import { AuthContext } from "../authContext";
+import { useDispatch } from "react-redux";
+import { addStock } from "../reducers/stockSlice";
 import axios from "axios";
 
-function stockForm ({ setSidebar }) {
+function stockForm ({ userID, setSidebar }) {
   const auth = useContext(AuthContext);
-  const d = new Data();
+  const d = new Date();
   
   const [stockName, setStockName] = useState("");
   const [stockPrice, setStockPrice] = useState("");
@@ -14,43 +16,69 @@ function stockForm ({ setSidebar }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSidebar(false);
+
+    if (!stockName || !stockPrice || !date) {
+      // Add your own validation logic here if needed
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const auth = {
+      userID: 2,
+      username: 'shiyuliu',
+      token: 'test'
+  }
 
     try {
-      console.log(stockPrice)
-      const res = await axios.post('http://localhost:3000/dashboard/investment'), {
-        method: POśT,
+      const res = await axios.post('http://localhost:3000/dashboard/stocks', {
+        method: POST,
         headers: {
           'Content-type': 'application/json',
-          Authorizatiosn: 'Bearer ${auth.token};
-        },
+          Authorization: `Bearer ${auth.token}`
+          },
         body: JSON.stringify({
           userID: auth.userID,
-          stockPrice: stockPrice,
-          stockShares: stockShares,
-          date: date;
+          stock_name: stockName,
+          stock_price: stockPrice,
+          num_shares: stockShares,
+          date,
+          }),
         })
-      }
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
+    setSidebar(false);
   }
 
-  const handleName = (val) => {
-    setStockName(val);
-  }
+  const handleName = (event) => {
+    setStockName(event.target.value);
+  };
 
-  const handlePrice = (val) => {
-    setStockPrice(val);
-  }
+  const handlePrice = (event) => {
+    setStockPrice(event.target.value);
+  };
   
-  const handleShares = (val) => {
-    setStockPrice(val);
-  }
+  const handleShares = (event) => {
+    setStockShares(event.target.value);
+  };
 
   const handleDate = (val) => {
     const dateInput = new Date(val);
     const formattedDate = dateInput.toISOString().split('T')[0];
     setDate(formattedDate);
-  }
+  };
 
-  const handle
+  return (
+    <form className="goalForm" onSubmit={handleSubmit}>
+      <label>Enter the stocks data</label>
+      <input placeholder="Ticker symbol" onChange={handleName}/>
+      <input placeholder = "Purchase Price" onChange={handlePrice}/>
+      <input placeholder = "Number of shares" onChange={handleShares}/> 
+      {/* <input type="date" onChange={handleDate}/>  */}
+      <button type='submit' className='submit-button'>Submit</button>
+    </form>
+  )
 }
+
+export default stockForm;
