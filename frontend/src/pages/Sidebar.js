@@ -13,9 +13,16 @@ import HousingIcon from "../images/Icons/housing";
 import ExpenseForm from "./expenseForm";
 import BudgetForm from "./budgetForm";
 import GoalForm from "./goalForm";
+<<<<<<< HEAD
 import StockForm from "./stockForm";
+=======
+import { useDispatch } from "react-redux";
+import { setSidebar } from "../reducers/dashboardSlice.js";
 
-const Sidebar = ({ setSidebar, setRerender }) => {
+const Sidebar = () => {
+  const dispatch = useDispatch();
+>>>>>>> dev
+
   //declare the three states for expense, goal, and budget selections
   const [expenseSelection, setExpenseSelection] = useState(true);
   const [budgetSelection, setBudgetSelection] = useState(false);
@@ -34,7 +41,7 @@ const Sidebar = ({ setSidebar, setRerender }) => {
   return (
     <div className="Sidebar">
       <div className="closed-button">
-        <button onClick={() => setSidebar(false)} id="close-button">
+        <button onClick={() => dispatch(setSidebar(false))} id="close-button">
           <CloseIcon />
         </button>
       </div>
@@ -70,12 +77,18 @@ const Sidebar = ({ setSidebar, setRerender }) => {
             Stock
           </button>
         </div>
+<<<<<<< HEAD
         {expenseSelection && (
           <ExpenseForm setSidebar={setSidebar} setRerender={setRerender} />
         )}
         {budgetSelection && <BudgetForm setSidebar={setSidebar} />}
         {goalSelection && <GoalForm setSidebar={setSidebar} />}
         {stockSelection && <StockForm setSidebar={setSidebar} />}
+=======
+        {expenseSelection && <ExpenseForm />}
+        {budgetSelection && <BudgetForm />}
+        {goalSelection && <GoalForm />}
+>>>>>>> dev
       </div>
     </div>
   );
