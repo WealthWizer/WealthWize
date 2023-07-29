@@ -37,7 +37,7 @@ function stockForm ({ userID, setSidebar }) {
           Authorization: `Bearer ${auth.token}`
           },
         body: JSON.stringify({
-          userID: auth.userID,
+          user_id: auth.userID,
           stock_name: stockName,
           stock_price: stockPrice,
           num_shares: stockShares,
