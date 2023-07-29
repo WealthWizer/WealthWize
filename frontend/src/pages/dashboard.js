@@ -4,6 +4,7 @@ import Budget from "./Budget.js";
 import Goals from "./Goals.js";
 import Sidebar from "./Sidebar.js";
 import Transactions from "./Transactions.js";
+// import Stocks from "./Stocks.js";
 import Overview from "./Overview.js";
 import "./dashboard.css";
 import PlusIcon from "../images/Icons/+.js";
@@ -17,7 +18,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const userData = JSON.parse(localStorage.getItem("data"));
-  const { username, userID, token } = userData;
+  // const { username, userID, token } = userData;
 
   //declare states
   const [dataTables1, setDataTables] = useState({});
@@ -35,6 +36,14 @@ const Dashboard = () => {
       <Navbar />
       <Overview />
       <div className="components">
+        {/* <Transactions dataTables={dataTables} setDataTables={setDataTables} />
+        <Budget
+          setSidebar={setSidebar}
+          dataTables={dataTables}
+          setDataTables={setDataTables}
+        />
+        <Goals dataTables={dataTables} setDataTables={setDataTables} /> */}
+        {/* <Stocks dataTables={dataTables} setDataTables={setDataTables} /> */}
         <Transactions />
         <Budget />
         <Goals />
