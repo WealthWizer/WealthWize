@@ -51,7 +51,9 @@ transactionController.budgetSetter = async (req, res, next) => {
         // UPDATE budget
         // SET budget = ${req.body.goalAmount}
         // WHERE user_id = 1 AND category= '${req.body.goalCategory}';`;
-        const query = `INSERT INTO budget (user_id, budget, category) VALUES (${req.body.userID}, ${req.body.goalAmount}, '${req.body.goalCategory}')`;
+        const query = `INSERT INTO budget (user_id, budget, category) 
+        VALUES (${req.body.userID}, ${req.body.goalAmount}, '${req.body.goalCategory}') 
+        ON CONFLICT(user_id, category) DO UPDATE SET budget = ${req.body.goalAmount}`;
 
         const result = await db.query(query);
 

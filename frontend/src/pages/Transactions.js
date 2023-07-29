@@ -132,7 +132,7 @@ const Transactions = ({ dataTables }) => {
                 return (
                     <>
                         <div className='single-transaction'>
-                            <button key={`btn_${transaction.id}`}>edit</button>
+                            {/* <button key={`btn_${transaction.id}`}>edit</button> */}
                             <div key={transaction.id} className='transaction-firstline'>
                                 {/* <p>{transaction.item}</p> */}
                                 <p>{transaction.vendor_name}</p>

@@ -16,7 +16,7 @@ const Dashboard = ({ username }) => {
     username: 'shiyuliu',
     token: 'test'
   }
-  console.log(" here is the token", auth);
+  console.log("here is the token", auth);
 
   //declare states
   const [dataTables, setDataTables] = useState({});
@@ -33,7 +33,7 @@ const Dashboard = ({ username }) => {
         const jsonData = await response.json();
         // console.log("here is the jsonDATA", jsonData);
         // console.log('jsonData', jsonData.savings)
-        console.log(jsonData);
+        console.log('jsonData: ', jsonData);
         setDataTables({ ...jsonData });
       } catch (error) {
         console.log("error at fetchTables: ", error);
@@ -41,9 +41,10 @@ const Dashboard = ({ username }) => {
     };
     fetchTables();
     // console.log('setTablessworked', dataTables);
-  }, [sidebar]);
+  },[]); //[sidebar]
   // console.log('setTablessworked', dataTables.budget);
-  console.log("sidebar: ", sidebar);
+  // console.log("sidebar: ", sidebar);
+  console.log("from dashboard datatables", dataTables);
   return (
     <div className="dashboard">
       <Navbar username={username} />

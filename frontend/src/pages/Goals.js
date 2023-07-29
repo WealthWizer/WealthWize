@@ -5,6 +5,9 @@ import "./goals.css";
 import FilterIcon from "../images/Icons/filter";
 import Popup from 'reactjs-popup';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const Goals = () => {
   // const auth = useContext(AuthContext);
@@ -58,7 +61,7 @@ const Goals = () => {
 
   const updateGoal = async () => {
       try {
-          const response = await axios.patch(
+          const newGoals = await axios.patch(
           "http://localhost:3000/dashboard/updateGoal",
               {
               userID: 2,
@@ -66,6 +69,8 @@ const Goals = () => {
               amount: newGoal
               }
           );
+          // const newGoals = await data.json();;
+          setGoals(newGoals.data);
       }
       catch(err) {
           console.log(err);
@@ -74,7 +79,7 @@ const Goals = () => {
 
   const removeGoal = async () => {
       try {
-          const response = await axios.delete(
+          const data = await axios.delete(
           "http://localhost:3000/dashboard/removeGoal",
               { 
                   params: {
@@ -82,7 +87,8 @@ const Goals = () => {
                   category: dropDown
                   }
               }
-          );
+          )
+          setGoals(data.data);
       }
       catch(err) {
           console.log(err);
@@ -116,12 +122,36 @@ const Goals = () => {
         </span>
       </div>
       <div className="donut-div">
-        <Popup trigger={<button>*</button>} position="right center">
-          <h5>{dropDown}</h5>
-          <label>New Goal: <input type='text' onChange={e => setNewGoal(e.target.value)}></input></label>
-          <button onClick={updateGoal}>Update</button>
-          <button onClick={removeGoal}>Remove</button>
-        </Popup>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{paddingLeft: '75%', paddingRight: '5%'}}>
+            <Popup trigger={<button><FontAwesomeIcon icon={faPencil} /></button>} position="right center">
+              {
+                close => (
+                  <div id='goalChangesPopup' style={{fontSize: '16px'}}>
+                  <h5>{dropDown}</h5>
+                  <label>what's your new goal? <input type='text' onChange={e => setNewGoal(e.target.value)}></input></label>
+                  <button onClick={() => {updateGoal(); close()}}>Update</button>
+                  <br></br>
+                </div>
+                )
+              }
+            </Popup>
+          </div>
+          <div>
+            <Popup trigger={<button><FontAwesomeIcon icon={faTrashCan} /></button>} position="right center">
+              {
+                close => (
+                  <div id='goalRemovePopup' style={{fontSize: '16px'}}>
+                  <p>Are you sure you want to remove {dropDown} from your savings goals?</p>
+                  <button onClick={() => {removeGoal(); close()}}>Yes</button>
+                  <button onClick={() => {close()}}>No, I want to continue saving</button>
+                </div>
+                )
+              }
+            </Popup>
+          </div>
+
+        </div>
         <ApexDonut
           goals={goals}
           dropDown={dropDown}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import BudgetChart from "./BudgetChart";
 import "./budget.css";
+
 const Budget = ({ dataTables }) => {
   const [totalBudget, setTotalBudget] = useState(null);
   const [transactions, setTransactions] = useState(null);
@@ -14,6 +15,7 @@ const Budget = ({ dataTables }) => {
     const fetchBudget = async () => {
       try {
         let budgetTable = dataTables.budget;
+        console.log('shiyu budget: ', budgetTable);
         if (budgetTable && budgetTable.length > 0) {
           let budgetSum = 0;
           budgetTable.forEach((row) => {
