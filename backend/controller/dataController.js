@@ -5,7 +5,7 @@ const dataController = {};
 
 //savings table
 dataController.savings = async (req, res, next) => {
-  console.log("i am in dataController.savings");
+  // console.log("i am in dataController.savings");
   try {
     //change querystr when figured out if we are matching userid or username
     const querystr = `SELECT * FROM "public"."savings"  WHERE user_id = ${req.params.userID}`;

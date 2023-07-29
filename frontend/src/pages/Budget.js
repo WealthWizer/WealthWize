@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import BudgetChart from "./BudgetChart";
 import "./budget.css";
+import { useDispatch, useSelector } from "react-redux";
 
-const Budget = ({ dataTables }) => {
+const Budget = () => {
+  const { dataTables } = useSelector((state) => state.dashboard);
+
   const [totalBudget, setTotalBudget] = useState(null);
   const [transactions, setTransactions] = useState(null);
   const [sumTrans, setSumTrans] = useState(null);
@@ -20,12 +23,12 @@ const Budget = ({ dataTables }) => {
           let budgetSum = 0;
           budgetTable.forEach((row) => {
             budgetSum += row.budget;
-            console.log('budgetSum', budgetSum);
+            console.log("budgetSum", budgetSum);
           });
           setTotalBudget(budgetSum);
-          console.log('totalBudget', totalBudget);
+          console.log("totalBudget", totalBudget);
         } else {
-          console.log('setting budget to 0')
+          console.log("setting budget to 0");
           setTotalBudget(0); // Set a default value if the budget table is empty
         }
       } catch (err) {

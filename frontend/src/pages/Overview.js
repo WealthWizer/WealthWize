@@ -1,20 +1,21 @@
-import React, { useState,useEffect, useContext } from 'react';
-import './Overview.css';
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
+import React, { useState, useEffect, useContext } from "react";
+import "./Overview.css";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 import { faPiggyBank } from '@fortawesome/free-solid-svg-icons';
 
-const Overview =({dataTables})=>{
+const Overview = () => {
+  const dataTables = useSelector((state) => state.dashboard);
 
 const [total, setTotal] = useState(null);
 const [accounts, setAccounts] = useState({checking: 5000, savings: 0});
 const [options, setOptions] = useState([]);
 const [goal, setGoal] = useState();
 const [amount, setAmount] = useState();
-const [goalAchieved, setGoalAchieved] = useState(false);
 const auth = {
   userID: 2,
   username: 'shiyuliu',
@@ -24,17 +25,23 @@ const auth = {
     useEffect(() => {
         const fetchSavings = async () => {
           try {
-            let savingsTable = dataTables?.savings; // Null check using optional chaining
-            let savingsSum = 0;
-            // console.log('savingsTable', savingsTable)
+            const data = await fetch(`http://localhost:3000/dashboard/getSavings/${auth.userID}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            },
+          })
+          const savingsTable = (await data.json()).savings;
+          let savingsSum = 0;
+          // console.log('savingsTable', savingsTable)
 
-            savingsTable.forEach((row) => {
-              savingsSum += row.amount;
-            });
-            setAccounts((prevAccounts) => ({
-              ...prevAccounts,
-              savings: savingsSum,
-            }));
+          savingsTable.forEach((row) => {
+            savingsSum += row.amount;
+          });
+          setAccounts((prevAccounts) => ({
+            ...prevAccounts,
+            savings: savingsSum,
+          }));
           } catch (err) {
             console.log('Error at Overview.js:', err);
           }
@@ -43,25 +50,26 @@ const auth = {
       fetchSavings();
       }, [dataTables]);
 
-    useEffect(() => {
-    const fetchGoals = async () => {
-      // let goals = dataTables?.savings_goals;
-      const data = await fetch(`http://localhost:3000/dashboard/getGoals/${auth.userID}`, {
-        method: "GET",
-        headers: {
-        "Content-Type": "application/json",
-        },
-      })
-      const goals = (await data.json()).savings_goals;
-      const categories = [];
-      for (let i = 0; i < goals.length; i++) {
-        categories.push(goals[i].category);
-      }
-      setOptions(categories);
-      setGoal(categories[0]);
-      }
-      fetchGoals();
-      },[dataTables]);
+      useEffect(() => {
+        const fetchGoals = async () => {
+          // let goals = dataTables?.savings_goals;
+          const data = await fetch(`http://localhost:3000/dashboard/getGoals/${auth.userID}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            },
+          })
+          const goals = (await data.json()).savings_goals;
+          const categories = [];
+          for (let i = 0; i < goals.length; i++) {
+            categories.push(goals[i].category);
+          }
+          setOptions(categories);
+          setGoal(categories[0]);
+          }
+          fetchGoals();
+          },[dataTables]);
+        
     
       useEffect(() => {
         if (accounts.checking !== null && accounts.savings !== null) {
@@ -79,13 +87,6 @@ const auth = {
             amount: amount
           }
         );
-        setAccounts((prevAccounts) => ({
-          ...prevAccounts,
-          savings: response.data.total,
-        }));
-        if (response.data.goal_achieved) {
-          setGoalAchieved(true);
-        }
       }
       catch(err) {
         console.log(err);
