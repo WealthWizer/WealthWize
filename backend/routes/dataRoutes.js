@@ -18,7 +18,7 @@ router.get(
   dataController.savings_goals,
   dataController.transactions,
   dataController.users,
-  dataController.stocks
+  dataController.getAllStocks
 );
 
 router.post('/save', dataController.save);
@@ -41,7 +41,7 @@ router.get("/stocks", dataController.getAllStocks);
 
 router.post("/stocks", dataController.addStock);
 
-router.get("/stocks/:stockID", dataController.getStockById);
+// router.get("/stocks/:stockID", dataController.getStockById);
 
 router.delete("/stocks/:stockID", dataController.deleteStock);
 

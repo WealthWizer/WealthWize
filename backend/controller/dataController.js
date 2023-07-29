@@ -133,7 +133,7 @@ dataController.newExpense = async (req, res, next) => {
     console.log(req.body);
     const expense = req.body;
     console.log(expense);
-    querystr = `INSERT INTO transactions (user_id, category, amount, date, "vendorName")
+    querystr = `INSERT INTO transactions (user_id, category, amount, date, vendor_name)
       VALUES(${expense.userID}, '${expense.category}', ${expense.amount}, '${expense.date}', '${expense.vendorName}')`;
 
     const result = await db.query(querystr);
@@ -143,12 +143,53 @@ dataController.newExpense = async (req, res, next) => {
   }
 };
 
+dataController.save = async (req, res, next) => {
+  try {
+    const saving = req.body;
+    const querystr = `INSERT INTO savings (user_id, category, amount, date)
+      VALUES(${saving.userID}, '${saving.category}', ${saving.amount}, current_date)
+      ON CONFLICT(user_id, category) DO UPDATE SET amount = (SELECT amount + ${saving.amount} FROM savings
+      WHERE user_id = ${saving.userID} AND category = '${saving.category}')`;
+    await db.query(querystr);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+dataController.updateGoal = async (req, res, next) => {
+  try {
+    const { userID, category, amount } = req.body;
+    const updateGoalQuery = `UPDATE savings_goals SET goal = ${amount} WHERE user_id = ${userID} AND category = '${category}'`;
+    console.log(updateGoalQuery);
+    await db.query(updateGoalQuery);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+dataController.removeGoal = async (req, res, next) => {
+  try {
+    const { userID, category } = req.query;
+    const removeGoalQuery = `DELETE FROM savings_goals WHERE user_id = ${userID} AND category = '${category}'`;
+    const removeCategorySavings = `DELETE FROM savings WHERE user_id = ${userID} AND category = '${category}'`;
+    await db.query(removeGoalQuery);
+    await db.query(removeCategorySavings);
+    return next();
+  } catch (err) {
+    next(err);
+  }
+};
+
 dataController.getAllStocks = async (req, res, next) => {
   try {
-    const querystr = `SELECT * FROM "public"."stocks" WHERE user_id = ${req.params.userID}`;
+    const querystr = 'SELECT * FROM "public"."stocks"';
     const result = await db.query(querystr);
-    const stocks = result.rows;
-    res.json(stocks);
+
+    const stocksTable = result.rows;
+    res.locals.stocks = stocksTable;
+    return next();
   } catch (err) {
     next(err);
   }
@@ -156,30 +197,30 @@ dataController.getAllStocks = async (req, res, next) => {
 
 dataController.addStock = async (req, res, next) => {
   try {
-    const { user_id, stock_name, price, date } = req.body;
-    const insertQuery = `INSERT INTO stocks (user_id, stock_name, price, date)
-      VALUES (${user_id}, '${stock_name}', ${price}, '${date}')`;
+    const { user_id, stock_name, stock_price, num_shares } = req.body;
+    insertQuery = `INSERT INTO stocks (user_id, stock_name, stock_price, num_shares) VALUES (${user_id.user_id}, '${stock_name.stock_name}', ${stock_price.stock_price}), ${num_shares.num_shares})`;
     await db.query(insertQuery);
-    res.sendStatus(200);
+
+    return next(); 
   } catch (err) {
     next(err);
   }
 };
 
-dataController.getStockById = async (req, res, next) => {
-  try {
-    const querystr = `SELECT * FROM "public"."stocks" WHERE user_id = ${req.params.userID} AND stock_id = ${req.params.stockID}`;
-    const result = await db.query(querystr);
-    const stock = result.rows[0];
-    res.json(stock);
-  } catch (err) {
-    next(err);
-  }
-};
+// dataController.getStockById = async (req, res, next) => {
+//   try {
+//     const querystr = `SELECT * FROM "public"."stocks" WHERE user_id = ${req.params.userID} AND stock_id = ${req.params.stockID}`;
+//     const result = await db.query(querystr);
+//     const stock = result.rows[0];
+//     res.json(stock);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
 
 dataController.deleteStock = async (req, res, next) => {
   try {
-    const deleteQuery = `DELETE FROM stocks WHERE user_id = ${req.params.userID} AND stock_id = ${req.params.stockID}`;
+    const deleteQuery = `DELETE FROM stocks WHERE user_id = ${req.query.user_id} AND stock_id = ${req.query.stockID}`;
     await db.query(deleteQuery);
     res.sendStatus(200);
   } catch (err) {

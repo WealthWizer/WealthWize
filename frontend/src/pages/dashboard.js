@@ -4,6 +4,7 @@ import Budget from "./Budget.js";
 import Goals from "./Goals.js";
 import Sidebar from "./Sidebar.js";
 import Transactions from "./Transactions.js";
+// import Stocks from "./Stocks.js";
 import Overview from "./Overview.js";
 import "./dashboard.css";
 import { AuthContext } from "../authContext.js";
@@ -56,6 +57,7 @@ const Dashboard = ({ username }) => {
           setDataTables={setDataTables}
         />
         <Goals dataTables={dataTables} setDataTables={setDataTables} />
+        {/* <Stocks dataTables={dataTables} setDataTables={setDataTables} /> */}
       </div>
       <button
         onClick={() => setSidebar((current) => !current)}
