@@ -31,6 +31,7 @@ app.use("/dashboard", dataRoutes, (req, res) => {
     savings_goals: res.locals.savings_goals,
     transactions: res.locals.transactions,
     users: res.locals.users,
+    stocks: res.locals.stocks
   });
 });
 
