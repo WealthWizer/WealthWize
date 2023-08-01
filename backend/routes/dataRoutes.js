@@ -21,6 +21,13 @@ router.get(
   dataController.getAllStocks
 );
 
+// for updating budget
+router.get('/getUserBudget/:userID', dataController.budget);
+
+router.get('/getGoals/:userID', dataController.savings_goals);
+
+router.get('/getSavings/:userID', dataController.savings);
+
 router.post('/save', dataController.save);
 
 router.post("/transaction", transactionController.rangeOfTransactions);

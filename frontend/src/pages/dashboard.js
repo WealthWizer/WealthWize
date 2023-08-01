@@ -18,7 +18,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const userData = JSON.parse(localStorage.getItem("data"));
-  const { username, userID, token } = userData;
+  // const { username, userID, token } = userData;
 
   //declare states
   const [dataTables1, setDataTables] = useState({});

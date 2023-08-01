@@ -18,6 +18,7 @@ const Budget = () => {
     const fetchBudget = async () => {
       try {
         let budgetTable = dataTables.budget;
+        console.log('shiyu budget: ', budgetTable);
         if (budgetTable && budgetTable.length > 0) {
           let budgetSum = 0;
           budgetTable.forEach((row) => {
